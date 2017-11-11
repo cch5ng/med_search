@@ -32,8 +32,11 @@ class Search3 extends Component {
   }
 
   filterSearchData(searchDataAr) {
-    let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter) === true)
-    return filteredAr
+    if (this.state.filter.length) {
+      let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter) === true)
+      return filteredAr
+    }
+    return searchDataAr
   }
 
   render() {
@@ -67,16 +70,15 @@ class Search3 extends Component {
         <form>
           <input type="text" className="" placeholder="filter by dose form, strength" value={this.state.filter} 
             onChange={(ev) => this.handleFilterInputChange(ev.target.value)}/>
-          <input type="button" className="" value="Search" onClick={this.filterSearchData} />
         </form>
         <h3>Semantic Clinical and Brand Drug Results</h3>
         <div>
           <h4>Semantic Clinical Drugs</h4>
           {filtered3DataSCD 
             ? (<SearchResultsList data={filtered3DataSCD} 
-              drug1={drug1}
+              drug1={drug1} needLink="false"
               />)
-            : null
+            : <h4>There are no resulting Semantic Clinical Drugs</h4>
           }
           
         </div>
@@ -87,7 +89,7 @@ class Search3 extends Component {
             ? (<SearchResultsList data={filtered3DataSBD} 
                 drug1={drug1} needLink="false"
               />)
-            : null
+            : <h4>There are no resulting Semantic Branded Drugs</h4>
           }
         </div>
       </div>
