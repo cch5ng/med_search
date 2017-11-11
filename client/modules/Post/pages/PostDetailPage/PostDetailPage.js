@@ -39,11 +39,8 @@ class PostDetailPage extends Component {
   }
 
   filterSearchData(searchDataAr) {
-    if (this.state.filter.length) {
-      let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter) === true)
-      return filteredAr
-    }
-    return searchDataAr
+    let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter) === true)
+    return filteredAr
   }
 
   getPopulatedTTYKeys() {
