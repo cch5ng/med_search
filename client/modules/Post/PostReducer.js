@@ -1,8 +1,8 @@
 import { ADD_POST, ADD_POSTS, DELETE_POST, REQUEST_QUERY_S1, RECEIVE_QUERY_S1,
-  REQUEST_QUERY_S2, RECEIVE_QUERY_S2, REQUEST_QUERY_S3, RECEIVE_QUERY_S3} from './PostActions';
+  REQUEST_QUERY_S2, RECEIVE_QUERY_S2, REQUEST_QUERY_S3, RECEIVE_QUERY_S3 } from './PostActions';
 
 // Initial State
-const initialState = { data: [] };
+const initialState = {receiving: false, search3Data: [], search3DataSBD: [], search3DataSCD: []};
 
 const PostReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -28,11 +28,16 @@ const PostReducer = (state = initialState, action) => {
       };
 
     case RECEIVE_QUERY_S3 :
-      //console.log('action.receiving: ' + action.receiving)
+      console.log('got to RECEIVE_QUERY_S3')
+        console.log('keys tat: ' + Object.keys(state))
       return {...state,
         receiving: action.receiving,
-        search3DataSBD: action.search3DataSBD,
-        search3DataSCD: action.search3DataSCD
+        search3DataSBD: state.search3DataSBD
+          ? [...state.search3DataSBD, ...action.search3DataSBD]
+          : action.search3DataSBD,
+        search3DataSCD: state.search3DataSCD
+          ? [...state.search3DataSCD, ...action.search3DataSCD]
+          : action.search3DataSCD,
       };
 
     case ADD_POST :

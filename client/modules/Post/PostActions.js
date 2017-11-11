@@ -63,8 +63,12 @@ export function fetchSearch2(query) {
     dispatch(requestQuerySearch2())
     return callApiSearch2(query).then(res => {
       dispatch(receiveQuerySearch2(res));
-      let ingredRxcui = res['relatedGroup']['conceptGroup'][0]['conceptProperties'][0]['rxcui']
-      dispatch(fetchSearch3(ingredRxcui))
+      let search2ConceptProps = res['relatedGroup']['conceptGroup'][0]['conceptProperties']
+      let ingredRxcuiAr = search2ConceptProps.map(prop => (prop['rxcui']))
+      console.log('ingredRxcuiAr: ' + ingredRxcuiAr)
+      ingredRxcuiAr.forEach(ingredRxcui => {
+        dispatch(fetchSearch3(ingredRxcui))
+      })
     });
   };
 }
@@ -78,10 +82,12 @@ export function requestQuerySearch3() {
 }
 
 export function receiveQuerySearch3(res) {
-  // console.log('res: ' + res)
-  // console.log('keys res: ' + Object.keys(res))
+  console.log(' receiveQuerySearch3 axn ')
+  console.log('res: ' + res)
+  console.log('keys res: ' + Object.keys(res))
   return {
     type: RECEIVE_QUERY_S3,
+    //search3Data: res['relatedGroup']['conceptGroup'],
     search3DataSBD: res['relatedGroup']['conceptGroup'].filter(item => item['tty'] === 'SBD')[0]['conceptProperties'],
     search3DataSCD: res['relatedGroup']['conceptGroup'].filter(item => item['tty'] === 'SCD')[0]['conceptProperties'],
     receiving: false
