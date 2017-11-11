@@ -64,8 +64,8 @@ export function fetchSearch2(query) {
     return callApiSearch2(query).then(res => {
       dispatch(receiveQuerySearch2(res));
       let search2ConceptProps = res['relatedGroup']['conceptGroup'][0]['conceptProperties']
+// QUESTION not sure this is handling multiple ingredients case correctly
       let ingredRxcuiAr = search2ConceptProps.map(prop => (prop['rxcui']))
-      console.log('ingredRxcuiAr: ' + ingredRxcuiAr)
       ingredRxcuiAr.forEach(ingredRxcui => {
         dispatch(fetchSearch3(ingredRxcui))
       })
