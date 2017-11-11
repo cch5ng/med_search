@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 function SearchResultsList(props) {
   console.log('props.data: ' + props.data)
-  console.log('keys props.data[0]: ' + Object.keys(props.data[0]))
+  //console.log('keys props.data[0]: ' + Object.keys(props.data[0]))
   return (
     <div className="listView">
       {
@@ -15,8 +15,9 @@ function SearchResultsList(props) {
             <h3 className=''>
               <Link to={`/search/${props.drug1}/${med['rxcui']}`} >
                 {med['name']}
-              </Link>
+              </Link>)
             </h3>
+            <p className=''>Synonym: {med['synonym']}</p>
             <p className=''>Suppress: {med['suppress']}</p>
             <hr className='' />
           </div>

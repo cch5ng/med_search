@@ -60,6 +60,15 @@ const PostReducer = (state = initialState, action) => {
 // Get all posts
 export const getSearchData = state => state.posts.search1Data;
 
+export const getSearch3Data = state => ({search3DataSBD: state.posts.search3DataSBD, 
+    search3DataSCD: state.posts.search3DataSCD 
+  });
+
+
+//export const getSearch3DataSBD = state => state.posts.search3DataSBD;
+
+//export const getSearch3DataSCD = state => state.posts.search3DataSCD;
+
 // Get post by cuid
 export const getPost = (state, cuid) => state.posts.data.filter(post => post.cuid === cuid)[0];
 

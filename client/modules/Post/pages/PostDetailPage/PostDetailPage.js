@@ -71,7 +71,7 @@ class PostDetailPage extends Component {
               <div key={`${tty}-${idx}`}>
                 <h4 key={tty}>{tty}</h4>
                 <SearchResultsList data={this.filterSearchResultsByTTY(tty)} 
-                  drug1={drug1}
+                  drug1={drug1} needLink="true"
                 />
               </div>
             )))
