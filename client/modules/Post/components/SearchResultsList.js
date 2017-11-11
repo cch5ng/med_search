@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 //import PostListItem from './PostListItem/PostListItem';
 
 function SearchResultsList(props) {
-  console.log('props.data: ' + props.data)
-  //console.log('keys props.data[0]: ' + Object.keys(props.data[0]))
   return (
     <div className="listView">
       {
@@ -28,18 +26,3 @@ function SearchResultsList(props) {
 }
 
 export default SearchResultsList;
-
-
-//PostList.propTypes = {
-  // posts: PropTypes.arrayOf(PropTypes.shape({
-  //   name: PropTypes.string.isRequired,
-  //   title: PropTypes.string.isRequired,
-  //   content: PropTypes.string.isRequired,
-  //   slug: PropTypes.string.isRequired,
-  //   cuid: PropTypes.string.isRequired,
-  // })).isRequired,
-  // handleDeletePost: PropTypes.func.isRequired,
-//};
-/* 
-            <p className=''> {med['tty']}</p>
-*/
