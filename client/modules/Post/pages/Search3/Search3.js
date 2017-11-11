@@ -8,7 +8,7 @@ import { Link, withRouter } from 'react-router-dom';
 //import styles from '../../components/PostListItem/PostListItem.css';
 
 import SearchResultsList from '../../components/SearchResultsList'
-import SearchResultsList2 from '../../components/SearchResultsList2'
+//import SearchResultsList2 from '../../components/SearchResultsList2'
 
 // Import Actions
 import { fetchSearch2 } from '../../PostActions';
@@ -18,10 +18,22 @@ import { getSearch3Data } from '../../PostReducer';
 
 class Search3 extends Component {
 
+  state = {
+    filter: ''
+  }
+
   componentDidMount() {
-    console.log('s3 componentDidMount')
     let drug2 = this.props.match.params.drug2
     this.props.dispatch(fetchSearch2(drug2))
+  }
+
+  handleFilterInputChange(val) {
+    this.setState({filter: val})
+  }
+
+  filterSearchData(searchDataAr) {
+    let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter) === true)
+    return filteredAr
   }
 
   render() {
@@ -29,7 +41,8 @@ class Search3 extends Component {
     let drug2
     let search3DataSCD
     let search3DataSBD
-
+    let filtered3DataSCD
+    let filtered3DataSBD
 
     if (this.props.match.params.drug2 !== undefined) {
       drug2 = this.props.match.params.drug2
@@ -38,21 +51,29 @@ class Search3 extends Component {
     if (this.props.search3Data) {
       search3DataSCD = this.props.search3Data.search3DataSCD
       search3DataSBD = this.props.search3Data.search3DataSBD
-      console.log('search3DataSCD: ' + search3DataSCD)
-    }
-    if (this.props.search3DataSBD) {
+      //console.log('search3DataSCD: ' + search3DataSCD)
+      filtered3DataSCD = search3DataSCD
+      filtered3DataSBD = search3DataSBD
+
+      if (this.state.filter.length) {
+        filtered3DataSCD = this.filterSearchData(search3DataSCD)
+        filtered3DataSBD = this.filterSearchData(search3DataSBD)
+      }
     }
 
-    console.log('drug1: ' + drug1)
-    console.log('drug2: ' + drug2)
     return (
       <div>
-        <p>drug1: {drug1} > drug2: {drug2}</p>
-        <h3>Generic and Brand Drug Results</h3>
+        <p>Searched: drug1: {drug1} > drug2: {drug2}</p>
+        <form>
+          <input type="text" className="" placeholder="filter by dose form, strength" value={this.state.filter} 
+            onChange={(ev) => this.handleFilterInputChange(ev.target.value)}/>
+          <input type="button" className="" value="Search" onClick={this.filterSearchData} />
+        </form>
+        <h3>Semantic Clinical and Brand Drug Results</h3>
         <div>
-          <h4>SCD</h4>
-          {search3DataSCD 
-            ? (<SearchResultsList data={search3DataSCD} 
+          <h4>Semantic Clinical Drugs</h4>
+          {filtered3DataSCD 
+            ? (<SearchResultsList data={filtered3DataSCD} 
               drug1={drug1}
               />)
             : null
@@ -61,9 +82,9 @@ class Search3 extends Component {
         </div>
 
         <div>
-          <h4>SBD</h4>
-          { search3DataSBD
-            ? (<SearchResultsList data={search3DataSBD} 
+          <h4>Semantic Branded Drugs</h4>
+          { filtered3DataSBD
+            ? (<SearchResultsList data={filtered3DataSBD} 
                 drug1={drug1} needLink="false"
               />)
             : null
@@ -79,39 +100,13 @@ class Search3 extends Component {
 // Actions required to provide data for this component to render in sever side.
 Search3.need = [params => {
   return getSearch3Data();
-//  return fetchPost(params.cuid);
-//  return fetchPost(params.cuid);
 }];
 
 // Retrieve data from store as props
 function mapStateToProps(state, props) {
   return {
     search3Data: getSearch3Data(state),
-    //search3DataSCD: getSearch3DataSCD(state),
   };
 }
 
 export default withRouter(connect(mapStateToProps)(Search3))
-
-
-/*
-      <Helmet title={props.post.title} />
-      <div className={`${styles['single-post']} ${styles['post-detail']}`}>
-        <h3 className={styles['post-title']}>{props.post.title}</h3>
-        <p className={styles['author-name']}><FormattedMessage id="by" /> {props.post.name}</p>
-        <p className={styles['post-desc']}>{props.post.content}</p>
-      </div>
-
-      //export default Search3
-//connect(mapStateToProps)(PostDetailPage);
-//PostDetailPage.propTypes = {
-  //post: PropTypes.shape({
-    //name: PropTypes.string.isRequired,
-    //title: PropTypes.string.isRequired,
-    //content: PropTypes.string.isRequired,
-    //slug: PropTypes.string.isRequired,
-    //cuid: PropTypes.string.isRequired,
-  //}).isRequired,
-//};
-
-*/

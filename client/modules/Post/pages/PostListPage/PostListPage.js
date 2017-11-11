@@ -19,10 +19,10 @@ class PostListPage extends Component {
     query: ''
   }
 
-  componentDidMount() {
+  //componentDidMount() {
     //TODO retrieve data for 5 most popular queries
     //this.props.dispatch(fetchPosts());
-  }
+  //}
 
   handleQueryInputChange = (val) => {
     this.setState({query: val})
@@ -34,19 +34,6 @@ class PostListPage extends Component {
     this.setState({query: ''})
   // TODO call action to append query str to backend (query frequency calc)
   }
-
-/* TODO CLEAN
-  handleDeletePost = post => {
-    if (confirm('Do you want to delete this post')) { // eslint-disable-line
-      this.props.dispatch(deletePostRequest(post));
-    }
-  };
-
-  handleAddPost = (name, title, content) => {
-    this.props.dispatch(toggleAddPost());
-    this.props.dispatch(addPostRequest({ name, title, content }));
-  };
-*/
 
   render() {
     return (
@@ -74,13 +61,6 @@ class PostListPage extends Component {
     );
   }
 }
-
-// TODO add the component for 5 popular searches (I guess it is a link to the end results not the initial search string (like search1 query string))
-
-/* 
-        <PostCreateWidget addPost={this.handleAddPost} showAddPost={this.props.showAddPost} />
-        <PostList handleDeletePost={this.handleDeletePost} posts={this.props.posts} />
-*/
 
 // Actions required to provide data for this component to render in sever side.
 PostListPage.need = [() => { return fetchPosts(); }];

@@ -15,7 +15,7 @@ function SearchResultsList(props) {
             <h3 className=''>
               <Link to={`/search/${props.drug1}/${med['rxcui']}`} >
                 {med['name']}
-              </Link>)
+              </Link>
             </h3>
             <p className=''>Synonym: {med['synonym']}</p>
             <p className=''>Suppress: {med['suppress']}</p>
