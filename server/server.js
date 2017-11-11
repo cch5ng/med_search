@@ -3,7 +3,6 @@ import compression from 'compression';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
-import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -26,7 +25,7 @@ import { configureStore } from '../client/store';
 import { Provider } from 'react-redux';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { match, RouterContext } from 'react-router';
+import { match, RouterContext, StaticRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 
 // Import required modules
@@ -35,6 +34,9 @@ import { fetchComponentData } from './util/fetchData';
 import posts from './routes/post.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
+import IntlWrapper from '../client/modules/Intl/IntlWrapper';
+import Header from '../client/modules/App/components/Header/Header';
+import Footer from '../client/modules/App/components/Footer/Footer';
 
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
@@ -103,41 +105,72 @@ const renderError = err => {
 };
 
 // Server Side Rendering based on routes matched by React-router.
+const reduxProvider = React.createFactory(Provider);
 app.use((req, res, next) => {
-  match({ routes, location: req.url }, (err, redirectLocation, renderProps) => {
-    if (err) {
-      return res.status(500).end(renderError(err));
-    }
+  const context = {};
+  const store = configureStore();
+  const initialView = renderToString(
+    reduxProvider(
+      { store },
+      <StaticRouter
+        location={req.url}
+        context={context}
+      >
+        <Provider store={store}>
+          <IntlWrapper>
+            {routes}
+          </IntlWrapper>
+        </Provider>
+      </StaticRouter>
+    )
+  );
+  const finalState = store.getState();
 
-    if (redirectLocation) {
-      return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
-    }
-
-    if (!renderProps) {
-      return next();
-    }
-
-    const store = configureStore();
-
-    return fetchComponentData(store, renderProps.components, renderProps.params)
-      .then(() => {
-        const initialView = renderToString(
-          <Provider store={store}>
-            <IntlWrapper>
-              <RouterContext {...renderProps} />
-            </IntlWrapper>
-          </Provider>
-        );
-        const finalState = store.getState();
-
-        res
-          .set('Content-Type', 'text/html')
-          .status(200)
-          .end(renderFullPage(initialView, finalState));
-      })
-      .catch((error) => next(error));
-  });
+  if (context.url) {
+    res.redirect(302, context.url);
+  } else {
+    res.set('Content-Type', 'text/html')
+       .status(200)
+       .end(renderFullPage(initialView, finalState));
+  }
+  return next();
 });
+
+// app.use((req, res, next) => {
+//   match({ routes, location: req.url }, (err, redirectLocation, renderProps) => {
+//     if (err) {
+//       return res.status(500).end(renderError(err));
+//     }
+
+//     if (redirectLocation) {
+//       return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+//     }
+
+//     if (!renderProps) {
+//       return next();
+//     }
+
+//     const store = configureStore();
+
+//     return fetchComponentData(store, renderProps.components, renderProps.params)
+//       .then(() => {
+//         const initialView = renderToString(
+//           <Provider store={store}>
+//             <IntlWrapper>
+//               <RouterContext {...renderProps} />
+//             </IntlWrapper>
+//           </Provider>
+//         );
+//         const finalState = store.getState();
+
+//         res
+//           .set('Content-Type', 'text/html')
+//           .status(200)
+//           .end(renderFullPage(initialView, finalState));
+//       })
+//       .catch((error) => next(error));
+//   });
+// });
 
 // start app
 app.listen(serverConfig.port, (error) => {

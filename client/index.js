@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux'
 import { AppContainer } from 'react-hot-loader';
 import App from './App';
 import { configureStore } from './store';
@@ -12,9 +13,11 @@ const store = configureStore(window.__INITIAL_STATE__);
 const mountApp = document.getElementById('root');
 
 render(
-  <AppContainer>
-    <App store={store} />
-  </AppContainer>,
+  <Provider store={store}>
+    <AppContainer>
+      <App  />
+    </AppContainer>
+  </Provider>,
   mountApp
 );
 
@@ -25,10 +28,14 @@ if (module.hot) {
     // use <App /> here rather than require() a <NextApp />.
     const NextApp = require('./App').default; // eslint-disable-line global-require
     render(
+      <Provider store={store}>
       <AppContainer>
-        <NextApp store={store} />
-      </AppContainer>,
+        <App  />
+      </AppContainer>
+      </Provider>,
       mountApp
     );
   });
 }
+
+//        <NextApp store={store} />

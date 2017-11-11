@@ -1,7 +1,10 @@
 /* eslint-disable global-require */
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route, IndexRoute } from 'react-router-dom';
 import App from './modules/App/App';
+import PostListPage from './modules/Post/pages/PostListPage/PostListPage';
+import PostDetailPage from './modules/Post/pages/PostDetailPage/PostDetailPage';
+
 
 // require.ensure polyfill for node
 if (typeof require.ensure !== 'function') {
@@ -23,21 +26,40 @@ if (process.env.NODE_ENV !== 'production') {
 // react-router setup with code-splitting
 // More info: http://blog.mxstbr.com/2016/01/react-apps-with-pages/
 export default (
-  <Route path="/" component={App}>
-    <IndexRoute
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Post/pages/PostListPage/PostListPage').default);
-        });
-      }}
-    />
-    <Route
-      path="/posts/:slug-:cuid"
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Post/pages/PostDetailPage/PostDetailPage').default);
-        });
-      }}
-    />
-  </Route>
+  <Route path="/" component={App} />
 );
+
+// export default (
+//   <div>
+//     <Route exact path="/" component={PostListPage} />
+//     <Route exact path="/search/:drug1" component={PostDetailPage} />
+//   </div>
+// );
+
+/*
+    //<IndexRoute component={PostListPage}
+      // getComponent={(nextState, cb) => {
+      //   require.ensure([], require => {
+      //     cb(null, require('./modules/Post/pages/PostListPage/PostListPage').default);
+      //   });
+      // }}
+    ///>
+
+      // getComponent={(nextState, cb) => {
+      //   require.ensure([], require => {
+      //     cb(null, require('./modules/Post/pages/PostDetailPage/PostDetailPage').default);
+      //   });
+      // }}
+
+    // <Route
+    //   path="/posts/:slug-:cuid"
+    //   getComponent={(nextState, cb) => {
+    //     require.ensure([], require => {
+    //       cb(null, require('./modules/Post/pages/PostDetailPage/PostDetailPage').default);
+    //     });
+    //   }}
+    // />
+  //</Route>
+
+
+*/
