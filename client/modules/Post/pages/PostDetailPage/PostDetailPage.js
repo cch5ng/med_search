@@ -29,7 +29,9 @@ class PostDetailPage extends Component {
 
   componentDidMount() {
     let drug1 = this.props.match.params.drug1
-    this.props.dispatch(fetchSearch1(drug1))
+    if (drug1.length && typeof drug1 === 'string') {
+      this.props.dispatch(fetchSearch1(drug1))
+    }
   }
 
   handleFilterInputChange(val) {
@@ -37,8 +39,11 @@ class PostDetailPage extends Component {
   }
 
   filterSearchData(searchDataAr) {
-    let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter) === true)
-    return filteredAr
+    if (this.state.filter.length) {
+      let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter) === true)
+      return filteredAr
+    }
+    return searchDataAr
   }
 
   getPopulatedTTYKeys() {
@@ -92,11 +97,8 @@ class PostDetailPage extends Component {
                 />
               </div>
             ))
-          : null}
-
-        <ul>
-          <li><Link to={`/search/${drug1}/drug2`} >click for final results</Link></li>
-        </ul>
+          : (<h4>There are no search results. Please <Link to="/">try again.</Link></h4>) 
+        }
       </div>
     );
   }
