@@ -1,0 +1,82 @@
+input {
+  width: 90%;
+  height: 25px;
+  padding-left: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #999;
+}
+
+input:focus,
+select:focus,
+option:focus,
+textarea:focus {
+  outline: none !important;
+  border:1px solid #5FAAF0; /*#c0e585;*/
+  box-shadow: 0 0 10px #03A9F4;
+}
+
+.main {
+  width: 90%;
+  margin: 15px auto;
+}
+
+.breadcrumb {
+  /*font-size: 14px;*/
+  color: #999999;
+}
+
+.indent {
+  padding-left: 20px;
+}
+
+.btnSearch {
+  margin-top: 10px;
+  width: 110px;
+  padding-left: 0;
+}
+
+.drugName {
+  color: #666666;
+}
+
+.drugGroup {
+  color: #02c39f; /*#03A9F4;*/
+}
+
+.spacerExtraSmall {
+  width: 100%;
+  height: 15px;
+}
+
+.spacerSmall {
+  width: 100%;
+  height: 35px;
+}
+
+a.drugLink:link,
+a.drugLink:visited {
+  color: #0287c3;
+  text-decoration: none;
+}
+
+a.drugLink:hover,
+a.drugLink:focus {
+  color: #4ec2f7;
+  text-decoration: underline;
+}
+
+a.headerLink:link,
+a.headerLink:visited,
+a.headerLink:hover,
+a.headerLink:focus {
+  color: #fff;
+  text-decoration: none;
+}
+
+
+@media (min-width: 800px) {
+  .main {
+    width: 80%;
+  }
+}
