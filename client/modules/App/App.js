@@ -53,7 +53,7 @@ export class App extends Component {
 
         <Switch>
             <Route exact path="/" component={require("../../modules/Post/pages/PostListPage/PostListPage").default} />
-            <Route exact path="/searchIngred/:ingred3" 
+            <Route exact path="/searchReference/:drug2" 
               component={require("../../modules/Post/pages/Search4/Search4").default}
             />
             <Route exact path="/search/:drug1" 
