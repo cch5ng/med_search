@@ -80,7 +80,7 @@ class PostDetailPage extends Component {
 
     return (
       <div className={styles.main}>
-        <p className={styles.breadcrumb}>Searched: 1 {drug1}</p>
+        <p className={styles.breadcrumb}>Searched: {drug1}</p>
 
         <h2>Reference Drug Search Results</h2>
         <div className={styles.spacerExtraSmall} />
