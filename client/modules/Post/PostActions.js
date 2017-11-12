@@ -10,11 +10,22 @@ export const RECEIVE_QUERY_S2 = 'RECEIVE_QUERY_S2';
 export const REQUEST_QUERY_S3 = 'REQUEST_QUERY_S3';
 export const RECEIVE_QUERY_S3 = 'RECEIVE_QUERY_S3';
 
+export const ADD_POPULAR_QUERIES = 'ADD_POPULAR_QUERIES';
+export const SAVE_INGRED_ID_OBJ = 'SAVE_INGRED_ID_OBJ';
+
 export const ADD_POST = 'ADD_POST';
 export const ADD_POSTS = 'ADD_POSTS';
 export const DELETE_POST = 'DELETE_POST';
 
 // Export Actions
+export function saveIngredIdObj(queryObj) {
+  return {
+    type: SAVE_INGRED_ID_OBJ,
+    queryObj
+  };
+}
+
+
 export function requestQuerySearch1(query) {
   return {
     type: REQUEST_QUERY_S1,
@@ -72,24 +83,29 @@ export function fetchSearch2(queryObj) {
         ingredObj[prop['rxcui']] = {id: prop['rxcui'], name: prop['name']}
       })
       console.log('ingredObj: ' + ingredObj)
+      dispatch(saveIngredIdObj(ingredObj))
         console.log('keys ingredObj: ' + Object.keys(ingredObj))
 
 
       //let ingredRxcuiAr = search2ConceptProps.map(prop => (prop['rxcui']))
       //console.log('ingredRxcuiAr: ' + ingredRxcuiAr)
       Object.keys(ingredObj).forEach(ingredRxcui => {
-        dispatch(fetchSearch3(ingredObj[ingredRxcui]))
+          dispatch(fetchSearch3(ingredRxcui))
+//        dispatch(fetchSearch3(ingredObj[ingredRxcui]))
       })
     });
   };
 }
 
 // Export Actions
-export function requestQuerySearch3(queryObj) {
+export function requestQuerySearch3() {
   return {
     type: REQUEST_QUERY_S3,
     receiving: true,
-    queryObj
+    //better to have an object to do a name lookup by id
+    //but having conflicting logic when trying to handle direct fetch
+    //given only ingredient id (no name)
+    //queryObj
   };
 }
 
@@ -106,13 +122,14 @@ export function receiveQuerySearch3(res) {
   };
 }
 
-export function fetchSearch3(queryObj) {
-  console.log('fetchS3 queryObj: ' + queryObj)
-  console.log('fetchS3 keys queryObj: ' + Object.keys(queryObj))
-  console.log('queryObj.id: ' + queryObj.id)
+export function fetchSearch3(queryId) {
+  //console.log('fetchS3 queryObj: ' + queryObj)
+  //console.log('fetchS3 keys queryObj: ' + Object.keys(queryObj))
+  //console.log('queryObj.id: ' + queryObj.id)
   return (dispatch) => {
-    dispatch(requestQuerySearch3(queryObj))
-    return callApiSearch3(queryObj.id).then(res => {
+    dispatch(requestQuerySearch3())
+//    dispatch(requestQuerySearch3(queryObj))
+    return callApiSearch3(queryId).then(res => {
       dispatch(receiveQuerySearch3(res));
     });
   };
@@ -139,7 +156,7 @@ export function addPostRequest(post) {
 
 export function addPosts(posts) {
   return {
-    type: ADD_POSTS,
+    type: ADD_POPULAR_QUERIES,
     posts,
   };
 }
