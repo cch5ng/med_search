@@ -19,16 +19,16 @@ const PostReducer = (state = initialState, action) => {
       };
     case REQUEST_QUERY_S3 :
 //      console.log('action.receiving: ' + action.receiving)
-      // let query3 = {}
-      // if (state.queryString.query3) {
-      //    query3 = state.queryString.query3
-      // }
-      // let newQuery = {}
-      // newQuery[action.queryObj.id] = {id: action.queryObj.id, name: action.queryObj.name}
+      let query3 = {}
+      if (state.queryString.query3) {
+         query3 = state.queryString.query3
+      }
+      let newQuery = {}
+      newQuery[action.queryObj.id] = {id: action.queryObj.id, name: action.queryObj.name}
 
       return {...state,
         receiving: action.receiving,
-        //queryString: {...state.queryString, query3: {...query3, ...newQuery}}
+        queryString: {...state.queryString, query3: {...query3, ...newQuery}}
       };
 
     case RECEIVE_QUERY_S1 :
