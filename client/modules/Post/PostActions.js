@@ -62,8 +62,8 @@ export function requestQuerySearch2(queryObj) {
 }
 
 export function receiveQuerySearch2(res) {
-   console.log('res: ' + res)
-   console.log('keys res: ' + Object.keys(res))
+   // console.log('res: ' + res)
+   // console.log('keys res: ' + Object.keys(res))
   return {
     type: RECEIVE_QUERY_S2,
     search2Data: res['relatedGroup']['conceptGroup'],
@@ -74,24 +74,24 @@ export function receiveQuerySearch2(res) {
 export function fetchSearch2(queryObj) {
   return (dispatch) => {
     dispatch(requestQuerySearch2(queryObj))
-    return callApiSearch2(Object.keys(queryObj)[0]).then(res => {
+    return callApiSearch2(queryObj.rxcui).then(res => {
       dispatch(receiveQuerySearch2(res));
       let search2ConceptProps = res['relatedGroup']['conceptGroup'][0]['conceptProperties']
 // QUESTION not sure this is handling multiple ingredients case correctly
       let ingredObj = {}
       search2ConceptProps.forEach(prop => {
-        ingredObj[prop['rxcui']] = {id: prop['rxcui'], name: prop['name']}
+         ingredObj[prop['rxcui']] = {id: prop['rxcui'], name: prop['name']}
       })
-      console.log('ingredObj: ' + ingredObj)
-      dispatch(saveIngredIdObj(ingredObj))
-        console.log('keys ingredObj: ' + Object.keys(ingredObj))
+      //console.log('ingredObj: ' + ingredObj)
+      //dispatch(saveIngredIdObj(ingredObj))
+      //  console.log('keys ingredObj: ' + Object.keys(ingredObj))
+      dispatch(updatePostAsync(queryObj))
 
 
       //let ingredRxcuiAr = search2ConceptProps.map(prop => (prop['rxcui']))
       //console.log('ingredRxcuiAr: ' + ingredRxcuiAr)
       Object.keys(ingredObj).forEach(ingredRxcui => {
           dispatch(fetchSearch3(ingredRxcui))
-          dispatch(updatePostAsync(ingredRxcui))
 //        dispatch(fetchSearch3(ingredObj[ingredRxcui]))
       })
     });
@@ -111,12 +111,8 @@ export function requestQuerySearch3() {
 }
 
 export function receiveQuerySearch3(res) {
-  console.log(' receiveQuerySearch3 axn ')
-  console.log('res: ' + res)
-  console.log('keys res: ' + Object.keys(res))
   return {
     type: RECEIVE_QUERY_S3,
-    //search3Data: res['relatedGroup']['conceptGroup'],
     search3DataSBD: res['relatedGroup']['conceptGroup'].filter(item => item['tty'] === 'SBD')[0]['conceptProperties'],
     search3DataSCD: res['relatedGroup']['conceptGroup'].filter(item => item['tty'] === 'SCD')[0]['conceptProperties'],
     receiving: false
@@ -124,12 +120,8 @@ export function receiveQuerySearch3(res) {
 }
 
 export function fetchSearch3(queryId) {
-  //console.log('fetchS3 queryObj: ' + queryObj)
-  //console.log('fetchS3 keys queryObj: ' + Object.keys(queryObj))
-  //console.log('queryObj.id: ' + queryObj.id)
   return (dispatch) => {
     dispatch(requestQuerySearch3())
-//    dispatch(requestQuerySearch3(queryObj))
     return callApiSearch3(queryId).then(res => {
       dispatch(receiveQuerySearch3(res));
     });
@@ -170,9 +162,11 @@ export function fetchPosts() {
   };
 }
 
-export function updatePostAsync(id) {
+export function updatePostAsync(queryObj) {
+  let id = queryObj.rxcui
+  console.log('api id: ' + id)
   return (dispatch) => {
-    return callApi(`posts/${id}`, 'put').then(res => dispatch(updatePost(res.post)));
+    return callApi(`posts/${id}`, 'put', queryObj).then(res => dispatch(updatePost(res.post)));
   };
 }
 
