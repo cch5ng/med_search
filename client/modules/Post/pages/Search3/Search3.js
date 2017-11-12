@@ -28,6 +28,7 @@ class Search3 extends Component {
   componentDidMount() {
     let drug2Id = this.props.match.params.drug2
     let drug2Name
+    let drug2Synonym
     let { search1Data } = this.props
     let queryObj = {}
 
@@ -37,13 +38,16 @@ class Search3 extends Component {
         for (let j = 0; j < search1Data[i]['conceptProperties'].length; j++) {
           if (search1Data[i]['conceptProperties'][j]['rxcui'] === drug2Id) {
             drug2Name = search1Data[i]['conceptProperties'][j]['name']
+            drug2Synonym = search1Data[i]['conceptProperties'][j]['synonym']
             break
           }
         }
       }
     }
 
-    queryObj[drug2Id] = {id: drug2Id, name: drug2Name}
+    queryObj.rxcui = drug2Id
+    queryObj.name = drug2Name
+    queryObj.synonym = drug2Synonym
 
     this.props.dispatch(fetchSearch2(queryObj))
     this.setState({drug2Name})
@@ -87,24 +91,13 @@ class Search3 extends Component {
       <div className={styles.main}>
         <p className={styles.breadcrumb}>Searched: {drug1} > {this.state.drug2Name}</p>
 
-        <h2>Semantic Clinical and Brand Drug Results</h2>
+        <h2>Semantic Branded Drug and Clinical Drug Results</h2>
         <div className={styles.spacerExtraSmall} />
         <form>
           <input type="text" className="" placeholder="filter by dose form, strength" value={this.state.filter} 
             onChange={(ev) => this.handleFilterInputChange(ev.target.value)}/>
         </form>
         <div className={styles.spacerSmall} />
-        <div>
-          <h3 className={styles.drugGroup}>Semantic Clinical Drugs</h3>
-          {filtered3DataSCD 
-            ? (<SearchResultsList data={filtered3DataSCD} 
-              drug1={drug1} needLink="false"
-              />)
-            : <h4>There are no resulting Semantic Clinical Drugs</h4>
-          }
-          
-        </div>
-        <div className={styles.spacerExtraSmall} />
         <div>
           <h3 className={styles.drugGroup}>Semantic Branded Drugs</h3>
           { filtered3DataSBD
@@ -114,11 +107,19 @@ class Search3 extends Component {
             : <h4>There are no resulting Semantic Branded Drugs</h4>
           }
         </div>
+        <div className={styles.spacerExtraSmall} />
+        <div>
+          <h3 className={styles.drugGroup}>Semantic Clinical Drugs</h3>
+          {filtered3DataSCD 
+            ? (<SearchResultsList data={filtered3DataSCD} 
+              drug1={drug1} needLink="false"
+              />)
+            : <h4>There are no resulting Semantic Clinical Drugs</h4>
+          }
+        </div>
       </div>
     );  
   }
-
-
 }
 
 // Actions required to provide data for this component to render in sever side.

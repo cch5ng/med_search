@@ -29,7 +29,6 @@ class Search4 extends Component {
     let queryObj = {}
     let drug2rxcui = this.props.match.params.drug2
     let targetRefDrug
-    console.log('drug2rxcui: ' + drug2rxcui)
 
     if (this.props.popularQueries) {
       targetRefDrug = this.props.popularQueries.filter(query => query.rxcui === drug2rxcui)[0]
@@ -55,21 +54,14 @@ class Search4 extends Component {
   render() {
     let drug2 = this.props.match.params.drug2
     let drug2Synonym
-    // let drug2
     let search3DataSCD
     let search3DataSBD
     let filtered3DataSCD
     let filtered3DataSBD
-    //let ingred3Name
-
-    // if (this.props.match.params.drug2 !== undefined) {
-    //   drug2 = this.props.match.params.drug2
-    // }
 
     if (this.props.search3Data) {
       search3DataSCD = this.props.search3Data.search3DataSCD
       search3DataSBD = this.props.search3Data.search3DataSBD
-      //console.log('search3DataSCD: ' + search3DataSCD)
       filtered3DataSCD = search3DataSCD
       filtered3DataSBD = search3DataSBD
 
@@ -87,7 +79,7 @@ class Search4 extends Component {
       <div className={styles.main}>
         <p className={styles.breadcrumb}>Searched: Reference {this.state.refDrugSynonym ? this.state.refDrugSynonym : drug2}</p>
 
-        <h2>Semantic Brand Drug and Clinical Drug Results</h2>
+        <h2>Semantic Branded Drug and Clinical Drug Results</h2>
         <div className={styles.spacerExtraSmall} />
         <form>
           <input type="text" className="" placeholder="filter by dose form, strength" value={this.state.filter} 
