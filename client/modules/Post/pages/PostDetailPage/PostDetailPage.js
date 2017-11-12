@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { Link, withRouter } from 'react-router-dom';
+import Loader from 'react-loader';
 
 // Import Style
 import styles from '../style2.css';
@@ -14,7 +15,7 @@ import SearchResultsList from '../../components/SearchResultsList'
 import { fetchSearch1 } from '../../PostActions';
 
 // Import Selectors
-import { getPost, getSearch1BPCK, getSearch1GPCK, getSearch1SBD, getSearch1SCD, getSearchData } from '../../PostReducer';
+import { getSearchData, getIsReceiving } from '../../PostReducer';
 
 const TTY_TO_NAME = {
   'BPCK': 'Brand Name Pack',
@@ -73,6 +74,7 @@ class PostDetailPage extends Component {
   render() {
     let drug1 = this.props.match.params.drug1
     let populatedTTYList
+    let loaded = !this.props.isReceiving
 
     if (this.props.search1Data) {
       populatedTTYList = this.getPopulatedTTYKeys()
@@ -89,20 +91,22 @@ class PostDetailPage extends Component {
             onChange={(ev) => this.handleFilterInputChange(ev.target.value)}/>
         </form>
         <div className={styles.spacerSmall} />
-        {populatedTTYList
-          ? populatedTTYList.map((tty, idx) =>(
-              <div key={`outter-${tty}`}>
-                <div key={`${tty}-${idx}`}>
-                  <h3 className={styles.drugGroup} key={tty}>{TTY_TO_NAME[tty]}</h3>
-                  <SearchResultsList data={this.filterSearchResultsByTTY(tty)} 
-                    drug1={drug1} needLink="true"
-                  />
+        <Loader loaded={loaded} color="#03A9F4" lines={13} >
+          {populatedTTYList
+            ? populatedTTYList.map((tty, idx) =>(
+                <div key={`outter-${tty}`}>
+                  <div key={`${tty}-${idx}`}>
+                    <h3 className={styles.drugGroup} key={tty}>{TTY_TO_NAME[tty]}</h3>
+                    <SearchResultsList data={this.filterSearchResultsByTTY(tty)} 
+                      drug1={drug1} needLink="true"
+                    />
+                  </div>
+                  <div className={styles.spacerExtraSmall} />
                 </div>
-                <div className={styles.spacerExtraSmall} />
-              </div>
-            ))
-          : (<h4>There are no search results. Please <Link to="/">try again.</Link></h4>) 
-        }
+              ))
+            : (<h4>There are no search results. Please <Link to="/">try again.</Link></h4>) 
+          }
+        </Loader>
       </div>
     );
   }
@@ -116,7 +120,8 @@ PostDetailPage.need = [params => {
 // Retrieve data from store as props
 function mapStateToProps(state, props) {
   return {
-    search1Data: getSearchData(state)
+    search1Data: getSearchData(state),
+    isReceiving: getIsReceiving(state)
   };
 }
 
