@@ -82,31 +82,27 @@ export function fetchSearch2(queryObj) {
       search2ConceptProps.forEach(prop => {
          ingredObj[prop['rxcui']] = {id: prop['rxcui'], name: prop['name']}
       })
-      //console.log('ingredObj: ' + ingredObj)
-      //dispatch(saveIngredIdObj(ingredObj))
-      //  console.log('keys ingredObj: ' + Object.keys(ingredObj))
       dispatch(updatePostAsync(queryObj))
-
 
       //let ingredRxcuiAr = search2ConceptProps.map(prop => (prop['rxcui']))
       //console.log('ingredRxcuiAr: ' + ingredRxcuiAr)
       Object.keys(ingredObj).forEach(ingredRxcui => {
-          dispatch(fetchSearch3(ingredRxcui))
-//        dispatch(fetchSearch3(ingredObj[ingredRxcui]))
+          //dispatch(fetchSearch3(ingredRxcui))
+        dispatch(fetchSearch3(ingredObj[ingredRxcui], ingredRxcui))
       })
     });
   };
 }
 
 // Export Actions
-export function requestQuerySearch3() {
+export function requestQuerySearch3(queryObj) {
   return {
     type: REQUEST_QUERY_S3,
     receiving: true,
     //better to have an object to do a name lookup by id
     //but having conflicting logic when trying to handle direct fetch
     //given only ingredient id (no name)
-    //queryObj
+    queryObj
   };
 }
 
@@ -119,9 +115,9 @@ export function receiveQuerySearch3(res) {
   };
 }
 
-export function fetchSearch3(queryId) {
+export function fetchSearch3(queryObj, queryId) {
   return (dispatch) => {
-    dispatch(requestQuerySearch3())
+    dispatch(requestQuerySearch3(queryObj))
     return callApiSearch3(queryId).then(res => {
       dispatch(receiveQuerySearch3(res));
     });
