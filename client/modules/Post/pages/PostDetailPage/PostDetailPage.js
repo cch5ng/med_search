@@ -5,7 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import { Link, withRouter } from 'react-router-dom';
 
 // Import Style
-import styles from '../../components/PostListItem/PostListItem.css';
+import styles from '../style2.css';
+//import styles from '../../components/PostListItem/PostListItem.css';
 
 import SearchResultsList from '../../components/SearchResultsList'
 
@@ -78,20 +79,26 @@ class PostDetailPage extends Component {
     }
 
     return (
-      <div>
-        <p>Searched: drug1: {drug1}</p>
-        <h3>Reference Drug Search Results</h3>
+      <div className={styles.main}>
+        <p className={styles.breadcrumb}>Searched: 1 {drug1}</p>
+
+        <h2>Reference Drug Search Results</h2>
+        <div className={styles.spacerExtraSmall} />
         <form>
           <input type="text" className="" placeholder="filter by dose form, strength" value={this.state.filter} 
             onChange={(ev) => this.handleFilterInputChange(ev.target.value)}/>
         </form>
+        <div className={styles.spacerSmall} />
         {populatedTTYList
           ? populatedTTYList.map((tty, idx) =>(
-              <div key={`${tty}-${idx}`}>
-                <h4 key={tty}>{TTY_TO_NAME[tty]}</h4>
-                <SearchResultsList data={this.filterSearchResultsByTTY(tty)} 
-                  drug1={drug1} needLink="true"
-                />
+              <div key={`outter-${tty}`}>
+                <div key={`${tty}-${idx}`}>
+                  <h3 className={styles.drugGroup} key={tty}>{TTY_TO_NAME[tty]}</h3>
+                  <SearchResultsList data={this.filterSearchResultsByTTY(tty)} 
+                    drug1={drug1} needLink="true"
+                  />
+                </div>
+                <div className={styles.spacerExtraSmall} />
               </div>
             ))
           : (<h4>There are no search results. Please <Link to="/">try again.</Link></h4>) 
