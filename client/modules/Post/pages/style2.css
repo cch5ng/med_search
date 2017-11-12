@@ -80,6 +80,7 @@ a.headerLink:focus {
 
 .listItemPopular {
   list-style-type: none;
+  padding-top: 8px;
 }
 
 
