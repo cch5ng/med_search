@@ -55,13 +55,17 @@ textarea:focus {
 }
 
 a.drugLink:link,
-a.drugLink:visited {
+a.drugLink:visited,
+a.listItemPopular:link,
+a.listItemPopular:visited {
   color: #0287c3;
   text-decoration: none;
 }
 
 a.drugLink:hover,
-a.drugLink:focus {
+a.drugLink:focus,
+a.listItemPopular:hover,
+a.listItemPopular:focus {
   color: #4ec2f7;
   text-decoration: underline;
 }
@@ -72,6 +76,10 @@ a.headerLink:hover,
 a.headerLink:focus {
   color: #fff;
   text-decoration: none;
+}
+
+.listItemPopular {
+  list-style-type: none;
 }
 
 
