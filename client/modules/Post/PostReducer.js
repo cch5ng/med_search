@@ -1,5 +1,6 @@
 import { ADD_POST, ADD_POSTS, DELETE_POST, REQUEST_QUERY_S1, RECEIVE_QUERY_S1,
-  REQUEST_QUERY_S2, RECEIVE_QUERY_S2, REQUEST_QUERY_S3, RECEIVE_QUERY_S3 } from './PostActions';
+  REQUEST_QUERY_S2, RECEIVE_QUERY_S2, REQUEST_QUERY_S3, RECEIVE_QUERY_S3,
+  ADD_POPULAR_QUERIES, SAVE_INGRED_ID_OBJ } from './PostActions';
 
 // Initial State
 const initialState = {receiving: false, queryString: {}, search3Data: [], search3DataSBD: [], search3DataSCD: []};
@@ -18,16 +19,16 @@ const PostReducer = (state = initialState, action) => {
       };
     case REQUEST_QUERY_S3 :
 //      console.log('action.receiving: ' + action.receiving)
-      let query3 = {}
-      if (state.queryString.query3) {
-         query3 = state.queryString.query3
-      }
-      let newQuery = {}
-      newQuery[action.queryObj.id] = {id: action.queryObj.id, name: action.queryObj.name}
+      // let query3 = {}
+      // if (state.queryString.query3) {
+      //    query3 = state.queryString.query3
+      // }
+      // let newQuery = {}
+      // newQuery[action.queryObj.id] = {id: action.queryObj.id, name: action.queryObj.name}
 
       return {...state,
         receiving: action.receiving,
-        queryString: {...state.queryString, query3: {...query3, ...newQuery}}
+        //queryString: {...state.queryString, query3: {...query3, ...newQuery}}
       };
 
     case RECEIVE_QUERY_S1 :
@@ -56,14 +57,19 @@ const PostReducer = (state = initialState, action) => {
           : action.search3DataSCD,
       };
 
+    case SAVE_INGRED_ID_OBJ :
+      return {...state,
+        ingredIdLookup: action.queryObj
+      }
+
     case ADD_POST :
       return {
         data: [action.post, ...state.data],
       };
 
-    case ADD_POSTS :
+    case ADD_POPULAR_QUERIES :
       return {
-        data: action.posts,
+        popularQueries: action.posts,
       };
 
     case DELETE_POST :
@@ -88,7 +94,9 @@ export const getSearch3Data = state => ({search3DataSBD: state.posts.search3Data
 export const getQueryString = state => state.posts.queryString
 
 
-//export const getSearch3DataSBD = state => state.posts.search3DataSBD;
+export const getPopularQueries = state => state.posts.popularQueries;
+
+export const getIngredIdLookup = state => state.posts.ingredIdLookup;
 
 //export const getSearch3DataSCD = state => state.posts.search3DataSCD;
 
