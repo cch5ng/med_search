@@ -16,6 +16,9 @@ import { fetchSearch2 } from '../../PostActions';
 // Import Selectors
 import { getSearch3Data } from '../../PostReducer';
 
+// Import Style
+import styles from '../style2.css';
+
 class Search3 extends Component {
 
   state = {
@@ -62,15 +65,18 @@ class Search3 extends Component {
     }
 
     return (
-      <div>
-        <p>Searched: drug1: {drug1} > drug2: {drug2}</p>
+      <div className={styles.main}>
+        <p className={styles.breadcrumb}>Searched: 1 {drug1} > 2 {drug2}</p>
+
+        <h2>Semantic Clinical and Brand Drug Results</h2>
+        <div className={styles.spacerExtraSmall} />
         <form>
           <input type="text" className="" placeholder="filter by dose form, strength" value={this.state.filter} 
             onChange={(ev) => this.handleFilterInputChange(ev.target.value)}/>
         </form>
-        <h3>Semantic Clinical and Brand Drug Results</h3>
+        <div className={styles.spacerSmall} />
         <div>
-          <h4>Semantic Clinical Drugs</h4>
+          <h3 className={styles.drugGroup}>Semantic Clinical Drugs</h3>
           {filtered3DataSCD 
             ? (<SearchResultsList data={filtered3DataSCD} 
               drug1={drug1} needLink="false"
@@ -79,9 +85,9 @@ class Search3 extends Component {
           }
           
         </div>
-
+        <div className={styles.spacerExtraSmall} />
         <div>
-          <h4>Semantic Branded Drugs</h4>
+          <h3 className={styles.drugGroup}>Semantic Branded Drugs</h3>
           { filtered3DataSBD
             ? (<SearchResultsList data={filtered3DataSBD} 
                 drug1={drug1} needLink="false"

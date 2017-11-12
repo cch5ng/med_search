@@ -1,6 +1,9 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router-dom';
 
+// Import Style
+import styles from '../pages/style2.css';
+
 // Import Components
 //import PostListItem from './PostListItem/PostListItem';
 
@@ -11,7 +14,7 @@ class SearchResultsList extends Component {
       return (`${med['name']}`)
     }
     return (
-      <Link to={`/search/${this.props.drug1}/${med['rxcui']}`} >
+      <Link className={styles.drugLink} to={`/search/${this.props.drug1}/${med['rxcui']}`} >
         {med['name']}
       </Link>
     )
@@ -23,9 +26,9 @@ class SearchResultsList extends Component {
         {
           this.props.data.map(med => (
             <div key={med['rxcui']} className=''>
-              <h3 className=''>
+              <h4 className={styles.drugName}>
                 {this.displayNameOrLink(med)}
-              </h3>
+              </h4>
               <p className=''>Synonym: {med['synonym']}</p>
               <p className=''>Suppress: {med['suppress']}</p>
               <hr className='' />
@@ -35,7 +38,6 @@ class SearchResultsList extends Component {
       </div>
     )  
   }
-
 }
 
 export default SearchResultsList;

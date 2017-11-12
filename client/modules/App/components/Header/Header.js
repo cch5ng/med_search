@@ -14,9 +14,9 @@ export function Header(props, context) {
     <div className={styles.header}>
       <div className={styles.content}>
         <h1 className={styles['site-title']}>
-          <Link to="/" >Med Search</Link>
+          <Link className={styles.headerLink} to="/" >Med Search</Link>
         </h1>
-        <Link to="/" className={styles['add-post-button']}>New Search</Link>
+        <Link className={styles.headerLink} to="/" className={styles['add-post-button']}>New Search</Link>
       </div>
     </div>
   );
