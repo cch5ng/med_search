@@ -10,13 +10,14 @@ import sanitizeHtml from 'sanitize-html';
  * @returns void
  */
 export function getPosts(req, res) {
-  Post.find().sort('-dateAdded').exec((err, posts) => {
+  Post.find().sort('-frequency').exec((err, posts) => {
     if (err) {
       res.status(500).send(err);
     }
     res.json({ posts });
   });
 }
+//sort('-dateAdded')
 
 /**
  * Save a post
@@ -25,18 +26,18 @@ export function getPosts(req, res) {
  * @returns void
  */
 export function addPost(req, res) {
-  if (!req.body.post.name || !req.body.post.title || !req.body.post.content) {
+  if (!req.body.post.name || !req.body.post.id) {
     res.status(403).end();
   }
 
   const newPost = new Post(req.body.post);
 
   // Let's sanitize inputs
-  newPost.title = sanitizeHtml(newPost.title);
+  //newPost.title = sanitizeHtml(newPost.title);
   newPost.name = sanitizeHtml(newPost.name);
-  newPost.content = sanitizeHtml(newPost.content);
+  newPost.id = sanitizeHtml(newPost.id);
 
-  newPost.slug = slug(newPost.title.toLowerCase(), { lowercase: true });
+  //newPost.slug = slug(newPost.title.toLowerCase(), { lowercase: true });
   newPost.cuid = cuid();
   newPost.save((err, saved) => {
     if (err) {
@@ -46,20 +47,22 @@ export function addPost(req, res) {
   });
 }
 
+// TODO updatePost
+
 /**
  * Get a single post
  * @param req
  * @param res
  * @returns void
  */
-export function getPost(req, res) {
-  Post.findOne({ cuid: req.params.cuid }).exec((err, post) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-    res.json({ post });
-  });
-}
+// export function getPost(req, res) {
+//   Post.findOne({ id: req.params.id }).exec((err, post) => {
+//     if (err) {
+//       res.status(500).send(err);
+//     }
+//     res.json({ post });
+//   });
+// }
 
 /**
  * Delete a post
@@ -67,14 +70,14 @@ export function getPost(req, res) {
  * @param res
  * @returns void
  */
-export function deletePost(req, res) {
-  Post.findOne({ cuid: req.params.cuid }).exec((err, post) => {
-    if (err) {
-      res.status(500).send(err);
-    }
+// export function deletePost(req, res) {
+//   Post.findOne({ cuid: req.params.cuid }).exec((err, post) => {
+//     if (err) {
+//       res.status(500).send(err);
+//     }
 
-    post.remove(() => {
-      res.status(200).end();
-    });
-  });
-}
+//     post.remove(() => {
+//       res.status(200).end();
+//     });
+//   });
+// }
