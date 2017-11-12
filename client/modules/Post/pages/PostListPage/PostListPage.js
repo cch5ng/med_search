@@ -59,12 +59,12 @@ class PostListPage extends Component {
         </div>
         <div className={styles.spacerSmall} />
         <div>
-          <h2>Top 5 Searches (by ingredient)</h2>
+          <h2>Top 5 Searches (by reference drug)</h2>
           <ul>
           {popularQueries && popularQueries.length
             ? popularQueries.map(query => (
               <li key={query._id} className={styles.listItemPopular}>
-                <Link to={`/searchIngred/${query.id}`}>{query.name}</Link>
+                <Link to={`/searchReference/${query.rxcui}`}>{query.name}</Link>
               </li>
             ))
             : null
