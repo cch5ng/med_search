@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { Link, withRouter } from 'react-router-dom';
+import Loader from 'react-loader';
 
 // Import Style
 //import styles from '../../components/PostListItem/PostListItem.css';
@@ -14,7 +15,7 @@ import SearchResultsList from '../../components/SearchResultsList'
 import { fetchSearch2 } from '../../PostActions';
 
 // Import Selectors
-import { getSearch3Data, getSearchData } from '../../PostReducer';
+import { getSearch3Data, getSearchData, getIsReceiving } from '../../PostReducer';
 
 // Import Style
 import styles from '../style2.css';
@@ -69,6 +70,7 @@ class Search3 extends Component {
     let search3DataSBD
     let filtered3DataSCD
     let filtered3DataSBD
+    let loaded = !this.props.isReceiving
 
     if (this.props.match.params.drug2 !== undefined) {
       drug2 = this.props.match.params.drug2
@@ -98,25 +100,27 @@ class Search3 extends Component {
             onChange={(ev) => this.handleFilterInputChange(ev.target.value)}/>
         </form>
         <div className={styles.spacerSmall} />
-        <div>
-          <h3 className={styles.drugGroup}>Semantic Branded Drugs</h3>
-          { filtered3DataSBD
-            ? (<SearchResultsList data={filtered3DataSBD} 
+        <Loader loaded={loaded} color="#03A9F4" >
+          <div>
+            <h3 className={styles.drugGroup}>Semantic Branded Drugs</h3>
+              { filtered3DataSBD
+                ? (<SearchResultsList data={filtered3DataSBD} 
+                    drug1={drug1} needLink="false"
+                  />)
+                : <h4>There are no resulting Semantic Branded Drugs</h4>
+              }
+          </div>
+          <div className={styles.spacerExtraSmall} />
+          <div>
+            <h3 className={styles.drugGroup}>Semantic Clinical Drugs</h3>
+            {filtered3DataSCD 
+              ? (<SearchResultsList data={filtered3DataSCD} 
                 drug1={drug1} needLink="false"
-              />)
-            : <h4>There are no resulting Semantic Branded Drugs</h4>
-          }
-        </div>
-        <div className={styles.spacerExtraSmall} />
-        <div>
-          <h3 className={styles.drugGroup}>Semantic Clinical Drugs</h3>
-          {filtered3DataSCD 
-            ? (<SearchResultsList data={filtered3DataSCD} 
-              drug1={drug1} needLink="false"
-              />)
-            : <h4>There are no resulting Semantic Clinical Drugs</h4>
-          }
-        </div>
+                />)
+              : <h4>There are no resulting Semantic Clinical Drugs</h4>
+            }
+          </div>
+        </Loader>
       </div>
     );  
   }
@@ -132,6 +136,7 @@ function mapStateToProps(state, props) {
   return {
     search1Data: getSearchData(state),
     search3Data: getSearch3Data(state),
+    isReceiving: getIsReceiving(state)
   };
 }
 

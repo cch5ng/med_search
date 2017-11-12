@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { Link, withRouter } from 'react-router-dom';
+import Loader from 'react-loader';
 
 // Import Style
 //import styles from '../../components/PostListItem/PostListItem.css';
@@ -14,7 +15,7 @@ import SearchResultsList from '../../components/SearchResultsList'
 import { fetchSearch2 } from '../../PostActions';
 
 // Import Selectors
-import { getSearch3Data, getSearchData, getIngredIdLookup, getPopularQueries } from '../../PostReducer';
+import { getSearch3Data, getSearchData, getPopularQueries, getIsReceiving } from '../../PostReducer';
 
 // Import Style
 import styles from '../style2.css';
@@ -58,6 +59,7 @@ class Search4 extends Component {
     let search3DataSBD
     let filtered3DataSCD
     let filtered3DataSBD
+    let loaded = !this.props.isReceiving
 
     if (this.props.search3Data) {
       search3DataSCD = this.props.search3Data.search3DataSCD
@@ -85,26 +87,28 @@ class Search4 extends Component {
           <input type="text" className="" placeholder="filter by dose form, strength" value={this.state.filter} 
             onChange={(ev) => this.handleFilterInputChange(ev.target.value)}/>
         </form>
-        <div className={styles.spacerSmall} />
-        <div className={styles.spacerExtraSmall} />
-        <div>
-          <h3 className={styles.drugGroup}>Semantic Branded Drugs</h3>
-          { filtered3DataSBD
-            ? (<SearchResultsList data={filtered3DataSBD} 
+        <Loader loaded={loaded} color="#03A9F4" >
+          <div className={styles.spacerSmall} />
+          <div className={styles.spacerExtraSmall} />
+          <div>
+            <h3 className={styles.drugGroup}>Semantic Branded Drugs</h3>
+            { filtered3DataSBD
+              ? (<SearchResultsList data={filtered3DataSBD} 
+                   needLink="false"
+                />)
+              : <h4>There are no resulting Semantic Branded Drugs</h4>
+            }
+          </div>
+          <div>
+            <h3 className={styles.drugGroup}>Semantic Clinical Drugs</h3>
+            {filtered3DataSCD 
+              ? (<SearchResultsList data={filtered3DataSCD} 
                  needLink="false"
-              />)
-            : <h4>There are no resulting Semantic Branded Drugs</h4>
-          }
-        </div>
-        <div>
-          <h3 className={styles.drugGroup}>Semantic Clinical Drugs</h3>
-          {filtered3DataSCD 
-            ? (<SearchResultsList data={filtered3DataSCD} 
-               needLink="false"
-              />)
-            : <h4>There are no resulting Semantic Clinical Drugs</h4>
-          }
-        </div>
+                />)
+              : <h4>There are no resulting Semantic Clinical Drugs</h4>
+            }
+          </div>
+        </Loader>
       </div>
     );  
   }
@@ -120,20 +124,8 @@ function mapStateToProps(state, props) {
   return {
     popularQueries: getPopularQueries(state),
     search3Data: getSearch3Data(state),
+    isReceiving: getIsReceiving(state)
   };
 }
 
 export default withRouter(connect(mapStateToProps)(Search4))
-
-    // console.log('ingred3: ' + this.props.match.params.ingred3)
-    // let ingred3Id = this.props.match.params.ingred3
-
-    // this.props.dispatch(fetchSearch3(ingred3Id))
-    // if (this.props.popularQueries && this.props.popularQueries.length) {
-    //   let ingred3Name = this.props.popularQueries.filter(query => (query.id === ingred3Id))[0].name
-    //   //console.log('ingred3Name: ' + ingred3Name)
-    //   this.setState({ingred3: ingred3Name})
-    // } else {
-    //   this.setState({ingred3: ingred3Id})
-    // }
-
