@@ -41,6 +41,8 @@ const PostReducer = (state = initialState, action) => {
     case RECEIVE_QUERY_S2 :
       return {...state,
         receiving: action.receiving,
+// TODO think data format will not be consistent if go through long search
+// vs go through popular query link
         search2Data: action.search2Data
       };
 
