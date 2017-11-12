@@ -13,7 +13,7 @@ export const RECEIVE_QUERY_S3 = 'RECEIVE_QUERY_S3';
 export const ADD_POPULAR_QUERIES = 'ADD_POPULAR_QUERIES';
 export const SAVE_INGRED_ID_OBJ = 'SAVE_INGRED_ID_OBJ';
 
-export const ADD_POST = 'ADD_POST';
+export const UPDATE_POST = 'UPDATE_POST';
 export const ADD_POSTS = 'ADD_POSTS';
 export const DELETE_POST = 'DELETE_POST';
 
@@ -91,6 +91,7 @@ export function fetchSearch2(queryObj) {
       //console.log('ingredRxcuiAr: ' + ingredRxcuiAr)
       Object.keys(ingredObj).forEach(ingredRxcui => {
           dispatch(fetchSearch3(ingredRxcui))
+          dispatch(updatePostAsync(ingredRxcui))
 //        dispatch(fetchSearch3(ingredObj[ingredRxcui]))
       })
     });
@@ -135,9 +136,9 @@ export function fetchSearch3(queryId) {
   };
 }
 
-export function addPost(post) {
+export function updatePost(post) {
   return {
-    type: ADD_POST,
+    type: UPDATE_POST,
     post,
   };
 }
@@ -169,21 +170,28 @@ export function fetchPosts() {
   };
 }
 
-export function fetchPost(cuid) {
+export function updatePostAsync(id) {
   return (dispatch) => {
-    return callApi(`posts/${cuid}`).then(res => dispatch(addPost(res.post)));
+    return callApi(`posts/${id}`, 'put').then(res => dispatch(updatePost(res.post)));
   };
 }
 
-export function deletePost(cuid) {
-  return {
-    type: DELETE_POST,
-    cuid,
-  };
-}
 
-export function deletePostRequest(cuid) {
-  return (dispatch) => {
-    return callApi(`posts/${cuid}`, 'delete').then(() => dispatch(deletePost(cuid)));
-  };
-}
+// export function fetchPost(cuid) {
+//   return (dispatch) => {
+//     return callApi(`posts/${cuid}`).then(res => dispatch(addPost(res.post)));
+//   };
+// }
+
+// export function deletePost(cuid) {
+//   return {
+//     type: DELETE_POST,
+//     cuid,
+//   };
+// }
+
+// export function deletePostRequest(cuid) {
+//   return (dispatch) => {
+//     return callApi(`posts/${cuid}`, 'delete').then(() => dispatch(deletePost(cuid)));
+//   };
+// }
