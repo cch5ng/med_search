@@ -47,7 +47,7 @@ export function addPost(req, res) {
   });
 }
 
-// TODO updatePost
+// TODO test
 
 /**
  * Get a single post
@@ -55,8 +55,39 @@ export function addPost(req, res) {
  * @param res
  * @returns void
  */
-// export function getPost(req, res) {
-//   Post.findOne({ id: req.params.id }).exec((err, post) => {
+export function updatePost(req, res) {
+  console.log('req.params.id: ' + req.params.id)
+  Post.updateOne({ 'id': req.params.id }, {$set: {"cuid" : cuid(), "id" : req.params.id }, $inc: { 'frequency': 1 }}, { upsert: true }).exec((err, post) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ post });
+
+    // post.update(
+    //   { 'id': req.params.id },
+    //   { $inc: { "frequency": 1 } },
+    //   { upsert: true }
+    // ).exec((err, post) => {
+    //   if (err) {
+    //     res.status(500).send(err);
+    //   }
+    //   
+    // });
+  });
+}
+
+
+
+// { $set: {"_id" : 4, "violations" : 7, "borough" : "Manhattan" } },
+//       { upsert: true }
+
+
+
+//   Post.findAndModify({
+//     query: { id: req.params.id },
+//     update: { $inc: { "frequency": 1 } },
+//     upsert: true
+//   }).exec((err, post) => {
 //     if (err) {
 //       res.status(500).send(err);
 //     }
@@ -81,3 +112,7 @@ export function addPost(req, res) {
 //     });
 //   });
 // }
+/* ,
+    { $set: { cuid: cuid(), id: req.params.id },  },
+    {upsert:true, returnNewDocument : true }*/
+

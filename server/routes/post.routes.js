@@ -5,8 +5,8 @@ const router = new Router();
 // Get all Posts
 router.route('/posts').get(PostController.getPosts);
 
-// Get one post by cuid
-//router.route('/posts/:cuid').get(PostController.getPost);
+// update query frequency by query id (ingred)
+router.route('/posts/:id').put(PostController.updatePost);
 
 // Add a new Post
 router.route('/posts').post(PostController.addPost);
