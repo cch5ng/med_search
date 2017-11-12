@@ -14,7 +14,7 @@ import SearchResultsList from '../../components/SearchResultsList'
 import { fetchSearch2 } from '../../PostActions';
 
 // Import Selectors
-import { getSearch3Data } from '../../PostReducer';
+import { getSearch3Data, getSearchData } from '../../PostReducer';
 
 // Import Style
 import styles from '../style2.css';
@@ -26,8 +26,27 @@ class Search3 extends Component {
   }
 
   componentDidMount() {
-    let drug2 = this.props.match.params.drug2
-    this.props.dispatch(fetchSearch2(drug2))
+    let drug2Id = this.props.match.params.drug2
+    let drug2Name
+    let { search1Data } = this.props
+    let queryObj = {}
+
+    // TODO refactor and see if easier to save this earlier
+    for (let i = 0; i < search1Data.length; i++) {
+      if (search1Data[i]['conceptProperties']) {
+        for (let j = 0; j < search1Data[i]['conceptProperties'].length; j++) {
+          if (search1Data[i]['conceptProperties'][j]['rxcui'] === drug2Id) {
+            drug2Name = search1Data[i]['conceptProperties'][j]['name']
+            break
+          }
+        }
+      }
+    }
+
+    queryObj[drug2Id] = {id: drug2Id, name: drug2Name}
+
+    this.props.dispatch(fetchSearch2(queryObj))
+    this.setState({drug2Name})
   }
 
   handleFilterInputChange(val) {
@@ -66,7 +85,7 @@ class Search3 extends Component {
 
     return (
       <div className={styles.main}>
-        <p className={styles.breadcrumb}>Searched: 1 {drug1} > 2 {drug2}</p>
+        <p className={styles.breadcrumb}>Searched: {drug1} > {this.state.drug2Name}</p>
 
         <h2>Semantic Clinical and Brand Drug Results</h2>
         <div className={styles.spacerExtraSmall} />
@@ -110,6 +129,7 @@ Search3.need = [params => {
 // Retrieve data from store as props
 function mapStateToProps(state, props) {
   return {
+    search1Data: getSearchData(state),
     search3Data: getSearch3Data(state),
   };
 }
