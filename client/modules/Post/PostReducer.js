@@ -1,4 +1,4 @@
-import { ADD_POST, ADD_POSTS, DELETE_POST, REQUEST_QUERY_S1, RECEIVE_QUERY_S1,
+import { UPDATE_POST, ADD_POSTS, DELETE_POST, REQUEST_QUERY_S1, RECEIVE_QUERY_S1,
   REQUEST_QUERY_S2, RECEIVE_QUERY_S2, REQUEST_QUERY_S3, RECEIVE_QUERY_S3,
   ADD_POPULAR_QUERIES, SAVE_INGRED_ID_OBJ } from './PostActions';
 
@@ -62,9 +62,12 @@ const PostReducer = (state = initialState, action) => {
         ingredIdLookup: action.queryObj
       }
 
-    case ADD_POST :
-      return {
-        data: [action.post, ...state.data],
+    case UPDATE_POST :
+      let nextState = state.popularQueries.slice(0)
+      let targetId = nextState.find(query => (query.cuid === action.post.cuid))
+      nextState[targetId] = action.post
+      return { ...state,
+        popularQueries: nextState,
       };
 
     case ADD_POPULAR_QUERIES :
