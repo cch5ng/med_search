@@ -47,8 +47,6 @@ const PostReducer = (state = initialState, action) => {
       };
 
     case RECEIVE_QUERY_S3 :
-      //console.log('got to RECEIVE_QUERY_S3')
-        //console.log('keys tat: ' + Object.keys(state))
       return {...state,
         receiving: action.receiving,
         search3DataSBD: state.search3DataSBD
@@ -98,23 +96,20 @@ export const getSearch3Data = state => ({search3DataSBD: state.posts.search3Data
 
 export const getQueryString = state => state.posts.queryString
 
-
 export const getPopularQueries = state => state.posts.popularQueries;
 
-export const getIngredIdLookup = state => state.posts.ingredIdLookup;
-
-//export const getSearch3DataSCD = state => state.posts.search3DataSCD;
+export const getIsReceiving = state => state.posts.receiving;
 
 // Get post by cuid
 export const getPost = (state, cuid) => state.posts.data.filter(post => post.cuid === cuid)[0];
 
-export const getSearch1BPCK = (state) => state.search1Data.filter(group => group['tty'] === 'BPCK')[0]['conceptProperties'] || []
+// export const getSearch1BPCK = (state) => state.search1Data.filter(group => group['tty'] === 'BPCK')[0]['conceptProperties'] || []
 
-export const getSearch1GPCK = (state) => state.search1Data.filter(group => group['tty'] === 'GPCK')[0]['conceptProperties'] || []
+// export const getSearch1GPCK = (state) => state.search1Data.filter(group => group['tty'] === 'GPCK')[0]['conceptProperties'] || []
 
-export const getSearch1SBD = (state) => state.search1Data.filter(group => group['tty'] === 'SBD')[0]['conceptProperties'] || []
+// export const getSearch1SBD = (state) => state.search1Data.filter(group => group['tty'] === 'SBD')[0]['conceptProperties'] || []
 
-export const getSearch1SCD = (state) => state.search1Data.filter(group => group['tty'] === 'SCD')[0]['conceptProperties'] || []
+// export const getSearch1SCD = (state) => state.search1Data.filter(group => group['tty'] === 'SCD')[0]['conceptProperties'] || []
 
 
 // Export Reducer
