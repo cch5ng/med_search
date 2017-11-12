@@ -48,7 +48,7 @@ class Search4 extends Component {
   }
 
   filterSearchData(searchDataAr) {
-    let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter) === true)
+    let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter.toLowerCase()) === true)
     return filteredAr
   }
 
@@ -84,7 +84,7 @@ class Search4 extends Component {
         <h2>Semantic Branded Drug and Clinical Drug Results</h2>
         <div className={styles.spacerExtraSmall} />
         <form>
-          <input type="text" className="" placeholder="filter by dose form, strength" value={this.state.filter} 
+          <input type="text" className="" placeholder="filter by ingredient, dose form, strength" value={this.state.filter} 
             onChange={(ev) => this.handleFilterInputChange(ev.target.value)}/>
         </form>
         <Loader loaded={loaded} color="#03A9F4" >

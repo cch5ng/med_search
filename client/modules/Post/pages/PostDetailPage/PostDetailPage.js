@@ -41,7 +41,7 @@ class PostDetailPage extends Component {
   }
 
   filterSearchData(searchDataAr) {
-    let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter) === true)
+    let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter.toLowerCase()) === true)
     return filteredAr
   }
 
