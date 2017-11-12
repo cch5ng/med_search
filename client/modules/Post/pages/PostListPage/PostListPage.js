@@ -7,7 +7,7 @@ import PostList from '../../components/PostList';
 //import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget';
 
 // Import Actions
-import { fetchSearch1 } from '../../PostActions';
+import { fetchSearch1, fetchPosts } from '../../PostActions';
 //import { toggleAddPost } from '../../../App/AppActions';
 
 // Import Style
@@ -15,17 +15,16 @@ import styles from '../style2.css';
 
 // Import Selectors
 // import { getShowAddPost } from '../../../App/AppReducer';
-// import { getPosts } from '../../PostReducer';
+import { getPopularQueries } from '../../PostReducer';
 
 class PostListPage extends Component {
   state = {
     query: ''
   }
 
-  //componentDidMount() {
-    //TODO retrieve data for 5 most popular queries
-    //this.props.dispatch(fetchPosts());
-  //}
+  componentDidMount() {
+    this.props.dispatch(fetchPosts());
+  }
 
   handleQueryInputChange = (val) => {
     this.setState({query: val})
@@ -41,6 +40,11 @@ class PostListPage extends Component {
   }
 
   render() {
+    let popularQueries
+    if (this.props.popularQueries) {
+      popularQueries = this.props.popularQueries.slice(0, 5)
+    } 
+
     return (
       <div className={styles.main}>
         <div>
@@ -57,11 +61,14 @@ class PostListPage extends Component {
         <div>
           <h2>Top 5 Searches (by ingredient)</h2>
           <ul>
-            <li>placeholder</li>
-            <li>placeholder</li>
-            <li>placeholder</li>
-            <li>placeholder</li>
-            <li>placeholder</li>
+          {popularQueries && popularQueries.length
+            ? popularQueries.map(query => (
+              <li key={query._id} className={styles.listItemPopular}>
+                <Link to={`/searchIngred/${query.id}`}>{query.name}</Link>
+              </li>
+            ))
+            : null
+          }
           </ul>
         </div>
       </div>
@@ -75,6 +82,7 @@ PostListPage.need = [() => { return fetchPosts(); }];
 // Retrieve data from store as props
 function mapStateToProps(state) {
   return {
+    popularQueries: getPopularQueries(state)
   };
 }
 
