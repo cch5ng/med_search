@@ -15,10 +15,11 @@ export const ADD_POSTS = 'ADD_POSTS';
 export const DELETE_POST = 'DELETE_POST';
 
 // Export Actions
-export function requestQuerySearch1() {
+export function requestQuerySearch1(query) {
   return {
     type: REQUEST_QUERY_S1,
     receiving: true,
+    query
   };
 }
 
@@ -34,17 +35,18 @@ export function receiveQuerySearch1(res) {
 
 export function fetchSearch1(query) {
   return (dispatch) => {
-    dispatch(requestQuerySearch1())
+    dispatch(requestQuerySearch1(query))
     return callApiSearch1(query).then(res => {
       dispatch(receiveQuerySearch1(res));
     });
   };
 }
 
-export function requestQuerySearch2() {
+export function requestQuerySearch2(queryObj) {
   return {
     type: REQUEST_QUERY_S2,
     receiving: true,
+    queryObj
   };
 }
 
@@ -58,26 +60,36 @@ export function receiveQuerySearch2(res) {
   };
 }
 
-export function fetchSearch2(query) {
+export function fetchSearch2(queryObj) {
   return (dispatch) => {
-    dispatch(requestQuerySearch2())
-    return callApiSearch2(query).then(res => {
+    dispatch(requestQuerySearch2(queryObj))
+    return callApiSearch2(Object.keys(queryObj)[0]).then(res => {
       dispatch(receiveQuerySearch2(res));
       let search2ConceptProps = res['relatedGroup']['conceptGroup'][0]['conceptProperties']
 // QUESTION not sure this is handling multiple ingredients case correctly
-      let ingredRxcuiAr = search2ConceptProps.map(prop => (prop['rxcui']))
-      ingredRxcuiAr.forEach(ingredRxcui => {
-        dispatch(fetchSearch3(ingredRxcui))
+      let ingredObj = {}
+      search2ConceptProps.forEach(prop => {
+        ingredObj[prop['rxcui']] = {id: prop['rxcui'], name: prop['name']}
+      })
+      console.log('ingredObj: ' + ingredObj)
+        console.log('keys ingredObj: ' + Object.keys(ingredObj))
+
+
+      //let ingredRxcuiAr = search2ConceptProps.map(prop => (prop['rxcui']))
+      //console.log('ingredRxcuiAr: ' + ingredRxcuiAr)
+      Object.keys(ingredObj).forEach(ingredRxcui => {
+        dispatch(fetchSearch3(ingredObj[ingredRxcui]))
       })
     });
   };
 }
 
 // Export Actions
-export function requestQuerySearch3() {
+export function requestQuerySearch3(queryObj) {
   return {
     type: REQUEST_QUERY_S3,
     receiving: true,
+    queryObj
   };
 }
 
@@ -94,10 +106,13 @@ export function receiveQuerySearch3(res) {
   };
 }
 
-export function fetchSearch3(query) {
+export function fetchSearch3(queryObj) {
+  console.log('fetchS3 queryObj: ' + queryObj)
+  console.log('fetchS3 keys queryObj: ' + Object.keys(queryObj))
+  console.log('queryObj.id: ' + queryObj.id)
   return (dispatch) => {
-    dispatch(requestQuerySearch3())
-    return callApiSearch3(query).then(res => {
+    dispatch(requestQuerySearch3(queryObj))
+    return callApiSearch3(queryObj.id).then(res => {
       dispatch(receiveQuerySearch3(res));
     });
   };

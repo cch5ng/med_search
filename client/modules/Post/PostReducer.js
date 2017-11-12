@@ -2,20 +2,36 @@ import { ADD_POST, ADD_POSTS, DELETE_POST, REQUEST_QUERY_S1, RECEIVE_QUERY_S1,
   REQUEST_QUERY_S2, RECEIVE_QUERY_S2, REQUEST_QUERY_S3, RECEIVE_QUERY_S3 } from './PostActions';
 
 // Initial State
-const initialState = {receiving: false, search3Data: [], search3DataSBD: [], search3DataSCD: []};
+const initialState = {receiving: false, queryString: {}, search3Data: [], search3DataSBD: [], search3DataSCD: []};
 
 const PostReducer = (state = initialState, action) => {
   switch (action.type) {
     case REQUEST_QUERY_S1 :
-    case REQUEST_QUERY_S2 :
-    case REQUEST_QUERY_S3 :
-      console.log('action.receiving: ' + action.receiving)
       return {...state,
         receiving: action.receiving,
+        queryString: {...state.queryString, query1: action.query}
+      };
+    case REQUEST_QUERY_S2 :
+      return {...state,
+        receiving: action.receiving,
+        queryString: {...state.queryString, query2: action.queryObj}
+      };
+    case REQUEST_QUERY_S3 :
+//      console.log('action.receiving: ' + action.receiving)
+      let query3 = {}
+      if (state.queryString.query3) {
+         query3 = state.queryString.query3
+      }
+      let newQuery = {}
+      newQuery[action.queryObj.id] = {id: action.queryObj.id, name: action.queryObj.name}
+
+      return {...state,
+        receiving: action.receiving,
+        queryString: {...state.queryString, query3: {...query3, ...newQuery}}
       };
 
     case RECEIVE_QUERY_S1 :
-      console.log('action.receiving: ' + action.receiving)
+      //console.log('action.receiving: ' + action.receiving)
       return {...state,
         receiving: action.receiving,
         search1Data: action.search1Data
@@ -28,8 +44,8 @@ const PostReducer = (state = initialState, action) => {
       };
 
     case RECEIVE_QUERY_S3 :
-      console.log('got to RECEIVE_QUERY_S3')
-        console.log('keys tat: ' + Object.keys(state))
+      //console.log('got to RECEIVE_QUERY_S3')
+        //console.log('keys tat: ' + Object.keys(state))
       return {...state,
         receiving: action.receiving,
         search3DataSBD: state.search3DataSBD
@@ -68,6 +84,8 @@ export const getSearchData = state => state.posts.search1Data;
 export const getSearch3Data = state => ({search3DataSBD: state.posts.search3DataSBD, 
     search3DataSCD: state.posts.search3DataSCD 
   });
+
+export const getQueryString = state => state.posts.queryString
 
 
 //export const getSearch3DataSBD = state => state.posts.search3DataSBD;
