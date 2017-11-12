@@ -11,7 +11,7 @@ import SearchResultsList from '../../components/SearchResultsList'
 //import SearchResultsList2 from '../../components/SearchResultsList2'
 
 // Import Actions
-import { fetchSearch3 } from '../../PostActions';
+import { fetchSearch2 } from '../../PostActions';
 
 // Import Selectors
 import { getSearch3Data, getSearchData, getIngredIdLookup, getPopularQueries } from '../../PostReducer';
@@ -26,17 +26,21 @@ class Search4 extends Component {
   }
 
   componentDidMount() {
-    console.log('ingred3: ' + this.props.match.params.ingred3)
-    let ingred3Id = this.props.match.params.ingred3
+    let queryObj = {}
+    let drug2rxcui = this.props.match.params.drug2
+    let targetRefDrug
+    console.log('drug2rxcui: ' + drug2rxcui)
 
-    this.props.dispatch(fetchSearch3(ingred3Id))
-    if (this.props.popularQueries && this.props.popularQueries.length) {
-      let ingred3Name = this.props.popularQueries.filter(query => (query.id === ingred3Id))[0].name
-      //console.log('ingred3Name: ' + ingred3Name)
-      this.setState({ingred3: ingred3Name})
-    } else {
-      this.setState({ingred3: ingred3Id})
+    if (this.props.popularQueries) {
+      targetRefDrug = this.props.popularQueries.filter(query => query.rxcui === drug2rxcui)[0]
     }
+
+    queryObj.rxcui = drug2rxcui
+    queryObj.name = targetRefDrug.name
+    queryObj.synonym = targetRefDrug.synonym
+
+    this.setState({refDrugSynonym: targetRefDrug.synonym})
+    this.props.dispatch(fetchSearch2(queryObj))
   }
 
   handleFilterInputChange(val) {
@@ -49,7 +53,8 @@ class Search4 extends Component {
   }
 
   render() {
-    // let drug1 = this.props.match.params.drug1
+    let drug2 = this.props.match.params.drug2
+    let drug2Synonym
     // let drug2
     let search3DataSCD
     let search3DataSBD
@@ -74,27 +79,21 @@ class Search4 extends Component {
       }
     }
 
+    if (this.props.popularQueries) {
+      drug2Synonym = this.props.popularQueries.filter(query => query.rxcui === drug2)[0].synonym
+    }
+
     return (
       <div className={styles.main}>
-        <p className={styles.breadcrumb}>Searched: Ingredient {this.state.ingred3}</p>
+        <p className={styles.breadcrumb}>Searched: Reference {this.state.refDrugSynonym ? this.state.refDrugSynonym : drug2}</p>
 
-        <h2>Semantic Clinical and Brand Drug Results</h2>
+        <h2>Semantic Brand Drug and Clinical Drug Results</h2>
         <div className={styles.spacerExtraSmall} />
         <form>
           <input type="text" className="" placeholder="filter by dose form, strength" value={this.state.filter} 
             onChange={(ev) => this.handleFilterInputChange(ev.target.value)}/>
         </form>
         <div className={styles.spacerSmall} />
-        <div>
-          <h3 className={styles.drugGroup}>Semantic Clinical Drugs</h3>
-          {filtered3DataSCD 
-            ? (<SearchResultsList data={filtered3DataSCD} 
-               needLink="false"
-              />)
-            : <h4>There are no resulting Semantic Clinical Drugs</h4>
-          }
-          
-        </div>
         <div className={styles.spacerExtraSmall} />
         <div>
           <h3 className={styles.drugGroup}>Semantic Branded Drugs</h3>
@@ -105,11 +104,18 @@ class Search4 extends Component {
             : <h4>There are no resulting Semantic Branded Drugs</h4>
           }
         </div>
+        <div>
+          <h3 className={styles.drugGroup}>Semantic Clinical Drugs</h3>
+          {filtered3DataSCD 
+            ? (<SearchResultsList data={filtered3DataSCD} 
+               needLink="false"
+              />)
+            : <h4>There are no resulting Semantic Clinical Drugs</h4>
+          }
+        </div>
       </div>
     );  
   }
-
-
 }
 
 // Actions required to provide data for this component to render in sever side.
@@ -122,8 +128,20 @@ function mapStateToProps(state, props) {
   return {
     popularQueries: getPopularQueries(state),
     search3Data: getSearch3Data(state),
-    ingredIdLookup: getIngredIdLookup(state)
   };
 }
 
 export default withRouter(connect(mapStateToProps)(Search4))
+
+    // console.log('ingred3: ' + this.props.match.params.ingred3)
+    // let ingred3Id = this.props.match.params.ingred3
+
+    // this.props.dispatch(fetchSearch3(ingred3Id))
+    // if (this.props.popularQueries && this.props.popularQueries.length) {
+    //   let ingred3Name = this.props.popularQueries.filter(query => (query.id === ingred3Id))[0].name
+    //   //console.log('ingred3Name: ' + ingred3Name)
+    //   this.setState({ingred3: ingred3Name})
+    // } else {
+    //   this.setState({ingred3: ingred3Id})
+    // }
+
