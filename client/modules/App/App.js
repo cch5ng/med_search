@@ -63,8 +63,8 @@ export class App extends Component {
               component={require("../../modules/Post/pages/Search3/Search3").default}
             />
         </Switch>
-
-       <Footer />
+        <div className={styles.spacerExtraLarge} />
+        <Footer />
       </div>
     );
   }
@@ -72,9 +72,7 @@ export class App extends Component {
 
 
 App.propTypes = {
-  //children: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
-  //intl: PropTypes.object.isRequired,
 };
 
 // Retrieve data from store as props
@@ -85,46 +83,3 @@ function mapStateToProps(store) {
 }
 
 export default connect(mapStateToProps)(App);
-
-//{this.props.children}
-/*
-
-        {this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />}
-        <div>
-          <Helmet
-            title="Med Search"
-            titleTemplate="%s - Blog App"
-            meta={[
-              { charset: 'utf-8' },
-              {
-                'http-equiv': 'X-UA-Compatible',
-                content: 'IE=edge',
-              },
-              {
-                name: 'viewport',
-                content: 'width=device-width, initial-scale=1',
-              },
-            ]}
-          />
-          <Header
-            switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
-            intl={this.props.intl}
-            toggleAddPost={this.toggleAddPostSection}
-          />
-          <div className={styles.container}>
-            <Route exact path="/" component={PostListPage} />
-            <Route exact path="/search/:drug1" 
-              render={() => (<PostDetailPage drug1={match.params.drug1} cuid="dummy" />)}
-            />
-          </div>
-          <Footer />
-        </div>
-
-*/
-
-//render={() => (<PostDetailPage drug1={match.params.drug1} cuid="dummy" />)}
-/*
-switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
-          intl={this.props.intl}
-          toggleAddPost={this.toggleAddPostSection}
-*/

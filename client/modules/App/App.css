@@ -4,3 +4,12 @@
   padding: 15px;
   margin: 0 auto;
 }
+
+.spacerExtraLarge {
+  width: 100%;
+  height: 175px;
+}
+
+.loader {
+  margin-bottom: 20px;
+}
