@@ -31,66 +31,6 @@ export default function App(props) {
   );
 }
 
-
-
 App.propTypes = {
   //store: React.PropTypes.object.isRequired,
 };
-
-// export default function App(props) {
-//   return (
-//       <IntlWrapper>
-//           <Helmet
-//             title="Med Search"
-//             titleTemplate="%s - Blog App"
-//             meta={[
-//               { charset: 'utf-8' },
-//               {
-//                 'http-equiv': 'X-UA-Compatible',
-//                 content: 'IE=edge',
-//               },
-//               {
-//                 name: 'viewport',
-//                 content: 'width=device-width, initial-scale=1',
-//               },
-//             ]}
-//           />
-//           <Header
-//             switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
-//             intl={this.props.intl}
-//             toggleAddPost={this.toggleAddPostSection}
-//           />
-
-
-//         <Router >
-//           <div>
-//             {routes}
-//           </div>
-//         </Router>
-
-//           <Footer />
-//       </IntlWrapper>
-//   );
-// }
-
-
-
-//          {routes}
-// component={PostDetailPage}
-
-/*
-
-                        {routes}
-        {this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />}
-
-    <Provider store={props.store}>
-    </Provider>
-
-history={history}
-    <Provider store={props.store}>
-    </Provider>
-          switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
-          intl={this.props.intl}
-          toggleAddPost={this.toggleAddPostSection}
-
-*/
