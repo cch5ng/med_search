@@ -49,12 +49,13 @@ export class App extends Component {
             },
           ]}
         />
-        <Header
-          
-        />
+        <Header />
 
         <Switch>
             <Route exact path="/" component={require("../../modules/Post/pages/PostListPage/PostListPage").default} />
+            <Route exact path="/searchIngred/:ingred3" 
+              component={require("../../modules/Post/pages/Search4/Search4").default}
+            />
             <Route exact path="/search/:drug1" 
               component={require("../../modules/Post/pages/PostDetailPage/PostDetailPage").default}
             />
