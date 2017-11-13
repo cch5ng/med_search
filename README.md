@@ -84,67 +84,36 @@ These were the main files changed from the scaffolding tool template files
 | - README.md
 | - yarn.lock
 | - client
-
     | - App.js
-
     | - index.js
-
     | - main.css
-
     | - modules 
-
         | - App
-
             | - App.js // contains client routes
-
             | - App.css
-
         | - Post
-
             | - PostReducer.js // reducers for all queries
-
             | - PostActions.js // actions for all queries and getting popular searches
-
             | - components // Sub components of this module
-
                 | - SearchResultsList.js
-
             | - pages // React Router Pages from this module
-
                 | - style2.css
-
                 | - PostListPage // default view
-
                     | - PostListPage.js
-
                 | - PostDetailPage // reference drugs list
-
                     | - PostDetailPage.js
-
                 | - Search3 // final search view (SBD/SCD drugs by ingredients)
-
                     | - Search3.js
-
                 | - Search4 // final search view (SBD/SCD drugs from popular search)
-
                     | - Search4.js
-
 | - server
-
     | - dummyData.js
-
     | - server.js
-
     | - controllers
-
         | - post.controller.js
-
     | - models
-
         | - post.js
-
     | - routes
-
         | - post.routes.js
 ```
 
