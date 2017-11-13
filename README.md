@@ -121,6 +121,10 @@ These were the main files changed from the scaffolding tool template files
 
 * There is a warning in the console for duplicate search results (from query 3, based on ingredients of reference drugs) being added to the view. This should be refactored but has a dependency on the first assumption (which could be wrong).
 
+* There is a warning about server side rendering. For new views I did not update the setup for server side rendering.
+
+* On the dev environment, a flash of unstyled content would show on changes. This is a mern.io behavior.
+
 * The views for Search3 and Search4 could be refactored and merged into one component.
 
 * Unit tests were not included in this deliverable. Manual testing was done.
