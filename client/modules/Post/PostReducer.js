@@ -1,4 +1,4 @@
-import { UPDATE_POST, ADD_POSTS, DELETE_POST, REQUEST_QUERY_S1, RECEIVE_QUERY_S1,
+import { UPDATE_POST, ADD_POSTS, REQUEST_QUERY_S1, RECEIVE_QUERY_S1,
   REQUEST_QUERY_S2, RECEIVE_QUERY_S2, REQUEST_QUERY_S3, RECEIVE_QUERY_S3,
   ADD_POPULAR_QUERIES, SAVE_INGRED_ID_OBJ } from './PostActions';
 
@@ -18,7 +18,6 @@ const PostReducer = (state = initialState, action) => {
         queryString: {...state.queryString, query2: action.queryObj}
       };
     case REQUEST_QUERY_S3 :
-//      console.log('action.receiving: ' + action.receiving)
       let query3 = {}
       if (state.queryString.query3) {
          query3 = state.queryString.query3
@@ -32,7 +31,6 @@ const PostReducer = (state = initialState, action) => {
       };
 
     case RECEIVE_QUERY_S1 :
-      //console.log('action.receiving: ' + action.receiving)
       return {...state,
         receiving: action.receiving,
         search1Data: action.search1Data
@@ -75,11 +73,6 @@ const PostReducer = (state = initialState, action) => {
         popularQueries: action.posts,
       };
 
-    case DELETE_POST :
-      return {
-        data: state.data.filter(post => post.cuid !== action.cuid),
-      };
-
     default:
       return state;
   }
@@ -102,15 +95,6 @@ export const getIsReceiving = state => state.posts.receiving;
 
 // Get post by cuid
 export const getPost = (state, cuid) => state.posts.data.filter(post => post.cuid === cuid)[0];
-
-// export const getSearch1BPCK = (state) => state.search1Data.filter(group => group['tty'] === 'BPCK')[0]['conceptProperties'] || []
-
-// export const getSearch1GPCK = (state) => state.search1Data.filter(group => group['tty'] === 'GPCK')[0]['conceptProperties'] || []
-
-// export const getSearch1SBD = (state) => state.search1Data.filter(group => group['tty'] === 'SBD')[0]['conceptProperties'] || []
-
-// export const getSearch1SCD = (state) => state.search1Data.filter(group => group['tty'] === 'SCD')[0]['conceptProperties'] || []
-
 
 // Export Reducer
 export default PostReducer;
