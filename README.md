@@ -123,6 +123,9 @@ These were the main files changed from the scaffolding tool template files
 
 * There is a warning about server side rendering. For new views I did not update the setup for server side rendering.
 
+* There is a warning: Warning: Failed prop type: The prop `intl` is marked as required in `IntlWrapper`, but its value is `undefined`.
+  * This is a result of my attempt to remove unused files but should not affect UI or functionality.
+
 * On the dev environment, a flash of unstyled content would show on changes. This is a mern.io behavior.
 
 * The views for Search3 and Search4 could be refactored and merged into one component.
