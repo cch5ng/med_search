@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom';
 // Import Style
 import styles from '../pages/style2.css';
 
-// Import Components
-//import PostListItem from './PostListItem/PostListItem';
-
 class SearchResultsList extends Component {
 
   displayNameOrLink(med) {
