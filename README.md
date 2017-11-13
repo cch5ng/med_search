@@ -79,7 +79,7 @@ There are 2 potential user flows
 
 These were the main files changed from the scaffolding tool template files
 
-
+```
 | - package.json
 
 | - README.md
@@ -149,7 +149,7 @@ These were the main files changed from the scaffolding tool template files
     | - routes
 
         | - post.routes.js
-
+```
 
 ## Known Issues
 
