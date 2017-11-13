@@ -54,10 +54,12 @@ class Search3 extends Component {
     this.setState({drug2Name})
   }
 
+  // input event handler (onChange) for filtering search results
   handleFilterInputChange(val) {
     this.setState({filter: val})
   }
 
+  // filters given list
   filterSearchData(searchDataAr) {
     let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter.toLowerCase()) === true)
     return filteredAr
@@ -79,7 +81,6 @@ class Search3 extends Component {
     if (this.props.search3Data) {
       search3DataSCD = this.props.search3Data.search3DataSCD
       search3DataSBD = this.props.search3Data.search3DataSBD
-      //console.log('search3DataSCD: ' + search3DataSCD)
       filtered3DataSCD = search3DataSCD
       filtered3DataSBD = search3DataSBD
 
@@ -134,7 +135,9 @@ Search3.need = [params => {
 // Retrieve data from store as props
 function mapStateToProps(state, props) {
   return {
+    // data from initial drug search
     search1Data: getSearchData(state),
+    // data from final query (SBD/SCD for ingredients)
     search3Data: getSearch3Data(state),
     isReceiving: getIsReceiving(state)
   };

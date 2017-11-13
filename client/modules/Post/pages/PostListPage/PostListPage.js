@@ -26,17 +26,18 @@ class PostListPage extends Component {
     this.props.dispatch(fetchPosts());
   }
 
+  // input event handler (onChange)
   handleQueryInputChange = (val) => {
     this.setState({query: val})
   }
 
+  // search redirects route which triggers action/fetch
   submitSearch = (ev) => {
     let query = this.state.query
     if (query.length) {
       this.props.history.push('/search/' + query)
     }
     this.setState({query: ''})
-  // TODO call action to append query str to backend (query frequency calc)
   }
 
   render() {

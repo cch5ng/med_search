@@ -20,6 +20,7 @@ import { getSearch3Data, getSearchData, getPopularQueries, getIsReceiving } from
 // Import Style
 import styles from '../style2.css';
 
+// TODO refactor and see if this could just be merged into Search3
 class Search4 extends Component {
 
   state = {
@@ -31,6 +32,7 @@ class Search4 extends Component {
     let drug2rxcui = this.props.match.params.drug2
     let targetRefDrug
 
+    // get reference drug to lookup name
     if (this.props.popularQueries) {
       targetRefDrug = this.props.popularQueries.filter(query => query.rxcui === drug2rxcui)[0]
     }
@@ -41,14 +43,17 @@ class Search4 extends Component {
 
     this.setState({
       refDrugName: targetRefDrug.name,
-      refDrugSynonym: targetRefDrug.synonym})
+      //refDrugSynonym: targetRefDrug.synonym
+    })
     this.props.dispatch(fetchSearch2(queryObj))
   }
 
+  // input event handler (onChange) for filtering sarch results
   handleFilterInputChange(val) {
     this.setState({filter: val})
   }
 
+  // filters given list (search results)
   filterSearchData(searchDataAr) {
     let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter.toLowerCase()) === true)
     return filteredAr
@@ -73,10 +78,6 @@ class Search4 extends Component {
         filtered3DataSCD = this.filterSearchData(search3DataSCD)
         filtered3DataSBD = this.filterSearchData(search3DataSBD)
       }
-    }
-
-    if (this.props.popularQueries) {
-      drug2Synonym = this.props.popularQueries.filter(query => query.rxcui === drug2)[0].synonym
     }
 
     return (

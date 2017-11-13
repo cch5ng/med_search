@@ -36,17 +36,21 @@ class PostDetailPage extends Component {
     }
   }
 
+  // input handler to filter returned search results (ref drugs)
   handleFilterInputChange(val) {
     this.setState({filter: val})
   }
 
+  // filters the given list by input filter
   filterSearchData(searchDataAr) {
     let filteredAr = searchDataAr.filter(item => item.name.toLowerCase().includes(this.state.filter.toLowerCase()) === true)
     return filteredAr
   }
 
+  // get tty values for current search results for grouping data
   getPopulatedTTYKeys() {
     let populatedTTYKeys = []
+    // TODO not definite this is the complete list; maybe it was just for a test sample
     const TTY_KEYS_LIST = ['BPCK', 'GPCK', 'SBD', 'SCD']
 
     this.props.search1Data.forEach(group => {
@@ -58,7 +62,7 @@ class PostDetailPage extends Component {
     return populatedTTYKeys
   }
 
-  //combined filter by tty with filter by input field
+  // group search results by tty and add filter by input field
   filterSearchResultsByTTY(tty) {
     let filter1 = this.props.search1Data.filter(group => group['tty'] === tty)[0]['conceptProperties']
     let filter2
