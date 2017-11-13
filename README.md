@@ -143,6 +143,8 @@ These items were omitted because of time.
 
 * Renaming of files and removal of files. Since this was the first time using the mern.io scaffolding tool, I felt it would take too long to troubleshoot removing/renaming files if it broke the app.
 
+* Prop types should be upgraded (npm prop-types) and code refactored.
+
 * Future feature: it would be nice to be able to filter search results based on a patient's medical history (removing drugs which were already tried but non-effective or removing drugs that would potentially conflict with current prescriptions)
 
 * Future feature: it would be nice to be able to sort search results based on price
