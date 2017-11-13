@@ -129,7 +129,7 @@ These were the main files changed from the scaffolding tool template files
 
 ## Nice to Have
 
-These items were ommitted because of time.
+These items were omitted because of time.
 
 * Search results views pagination.
 
