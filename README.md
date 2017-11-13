@@ -15,7 +15,7 @@
 ### Installation
 
 * If you don't have mongodb installed, please install it. 
-- [Website](https://www.mongodb.com/download-center?jmp=nav#community)
+  * [Website](https://www.mongodb.com/download-center?jmp=nav#community)
 
 * Clone this repo
 * If using yarn
@@ -157,7 +157,7 @@ These items were omitted because of time.
 ## Resources
 
 * This project was scaffolded using the mern-starter project
-- [Website](http://mern.io)
+  * [Website](http://mern.io)
 
 * The mern.io starter code was using an older version of react-router (2.x) and this topic was referenced for quickly upgrading to 4.x
   * https://github.com/Hashnode/mern-starter/issues/297#issuecomment-320136750
