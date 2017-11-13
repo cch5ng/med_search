@@ -34,9 +34,9 @@ import { fetchComponentData } from './util/fetchData';
 import posts from './routes/post.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
-import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 import Header from '../client/modules/App/components/Header/Header';
 import Footer from '../client/modules/App/components/Footer/Footer';
+import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
@@ -144,3 +144,5 @@ app.listen(serverConfig.port, (error) => {
 });
 
 export default app;
+
+
