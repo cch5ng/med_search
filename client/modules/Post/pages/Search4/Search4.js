@@ -39,7 +39,9 @@ class Search4 extends Component {
     queryObj.name = targetRefDrug.name
     queryObj.synonym = targetRefDrug.synonym
 
-    this.setState({refDrugSynonym: targetRefDrug.synonym})
+    this.setState({
+      refDrugName: targetRefDrug.name,
+      refDrugSynonym: targetRefDrug.synonym})
     this.props.dispatch(fetchSearch2(queryObj))
   }
 
@@ -79,7 +81,7 @@ class Search4 extends Component {
 
     return (
       <div className={styles.main}>
-        <p className={styles.breadcrumb}>Searched: Reference {this.state.refDrugSynonym ? this.state.refDrugSynonym : drug2}</p>
+        <p className={styles.breadcrumb}>Searched: Reference {this.state.refDrugName ? this.state.refDrugName : drug2}</p>
 
         <h2>Semantic Branded Drug and Clinical Drug Results</h2>
         <div className={styles.spacerExtraSmall} />
