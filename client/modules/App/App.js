@@ -15,9 +15,6 @@ import PostListPage from '../../modules/Post/pages/PostListPage/PostListPage';
 // reference drug list
 import PostDetailPage from '../../modules/Post/pages/PostDetailPage/PostDetailPage';
 
-// Import Actions
-//import { toggleAddPost } from './AppActions';
-
 export class App extends Component {
   constructor(props) {
     super(props);
