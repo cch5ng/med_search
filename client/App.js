@@ -4,8 +4,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import IntlWrapper from './modules/Intl/IntlWrapper';
-//import { createBrowserHistory } from 'history';
 
 // Import Routes
 import routes from './routes';
@@ -19,18 +17,16 @@ import Footer from './modules/App/components/Footer/Footer';
 // Base stylesheet
 require('./main.css');
 
-//const history = createBrowserHistory();
-
 export default function App(props) {
   return (
-    <IntlWrapper>
         <Router >
           {routes}
         </Router>
-    </IntlWrapper>
   );
 }
 
 App.propTypes = {
   //store: React.PropTypes.object.isRequired,
 };
+
+//import IntlWrapper from './modules/Intl/IntlWrapper';
