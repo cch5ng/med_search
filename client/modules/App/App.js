@@ -10,12 +10,13 @@ import Helmet from 'react-helmet';
 import DevTools from './components/DevTools';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+// default view for initial drug input
 import PostListPage from '../../modules/Post/pages/PostListPage/PostListPage';
+// reference drug list
 import PostDetailPage from '../../modules/Post/pages/PostDetailPage/PostDetailPage';
 
 // Import Actions
-import { toggleAddPost } from './AppActions';
-import { switchLanguage } from '../../modules/Intl/IntlActions';
+//import { toggleAddPost } from './AppActions';
 
 export class App extends Component {
   constructor(props) {
@@ -26,10 +27,6 @@ export class App extends Component {
   componentDidMount() {
     this.setState({isMounted: true}); // eslint-disable-line
   }
-
-  toggleAddPostSection = () => {
-    this.props.dispatch(toggleAddPost());
-  };
 
   render() {
     return (
