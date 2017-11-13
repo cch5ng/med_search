@@ -81,11 +81,8 @@ These were the main files changed from the scaffolding tool template files
 
 ```
 | - package.json
-
 | - README.md
-
 | - yarn.lock
-
 | - client
 
     | - App.js
